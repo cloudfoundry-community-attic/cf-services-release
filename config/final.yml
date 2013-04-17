@@ -1,0 +1,10 @@
+---
+final_name: cf-services-release
+min_cli_version: 1.0.3
+blobstore:
+  provider: atmos
+  options:
+    tag: BOSH
+    url: http://blob.cfblob.com
+    uid: bb6a0c89ef4048a8a0f814e25385d1c5/user1
+blobstore_options: deprecated

@@ -1,0 +1,203 @@
+--- <% # Add admin user with random password if it's not already there. -%>
+<% # block is require to keep existing ccdb admin  and services password, or make a unique one. -%>
+<% users = find("properties").fetch("uaa", {}).fetch("scim", {}).fetch("users", []) || [] -%>
+<% admin_user = users.detect { |u| u.match("^admin\\|") } -%>
+<% services_user = users.detect { |u| u.match("^services\\|") } -%>
+<% users.unshift "admin|#{random_string 12, :admin}|scim.write,scim.read,openid,cloud_controller.admin" unless admin_user -%>
+<% users << "services|#{random_string 12, :services}|scim.write,scim.read,openid,cloud_controller.admin" unless services_user -%>
+<% services_userid, services_password = services_user.split("\|")[0..1] if services_user -%>
+
+name: <%= find("name") %>
+director_uuid: <%= find("director_uuid") %>
+
+releases:
+- name: <%= find("releases")[0]["name"] %>
+  version: <%= find("releases")[0]["version"] %>
+
+compilation:
+  workers: 3
+  network: cf
+  reuse_compilation_vms: true
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
+  max_in_flight: 4
+  max_errors: 1
+
+networks:
+- name: cf
+  type: manual
+  subnets:
+  - range: 10.10.2.0/23
+    name: default_unused
+    reserved:
+    - 10.10.2.2 - 10.10.2.9
+    static:
+    - 10.10.2.10 - 10.10.2.30
+    gateway: 10.10.2.1
+    dns:
+    - 10.10.0.2  # amazon has only 1 DNS server for the whole VPC at x.x.0.2
+    cloud_properties:
+      security_groups:
+      - cf
+      subnet: <%= find('properties.template_only.aws.subnet_ids.cf') %>
+- name: services
+  type: manual
+  subnets:
+  - range: 10.10.4.0/23
+    name: default_unused
+    reserved:
+    - 10.10.4.2 - 10.10.4.9
+    static:
+    - 10.10.4.10 - 10.10.4.30
+    gateway: 10.10.4.1
+    dns:
+    - 10.10.0.2  # amazon has only 1 DNS server for the whole VPC at x.x.0.2
+    cloud_properties:
+      security_groups:
+      - cf
+      subnet: <%= find('properties.template_only.aws.subnet_ids.services') %>
+
+resource_pools:
+- name: services-small
+  network: services
+  size: 1
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+  cloud_properties:
+    instance_type: m1.small
+    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
+- name: services-smallfast
+  network: services
+  size: 1
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+  cloud_properties:
+    instance_type: c1.medium
+    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
+- name: services-large
+  network: services
+  size: 1
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+  cloud_properties:
+    instance_type: m1.large
+    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
+
+jobs:
+# ====================== BEGIN SERVICES JOBS =========================
+
+- name: service_gateways
+  release: <%= find("releases")[0]["name"] %>
+  template:
+  - rds_mysql_gateway
+  instances: 1
+  resource_pool: services-smallfast
+  persistent_disk: 7168
+  networks:
+  - name: services
+    static_ips:
+    - <%= ip( 2, 'services.static') %>
+  properties:
+    uaa_client_id: "cf"
+    uaa_endpoint: http://uaa.<%= find("properties.domain") %>
+    uaa_client_auth_credentials:
+      username: <%= services_userid || "services" %>
+      password: <%= services_password || random_string(12, :services) %>
+    rds_mysql_gateway:
+      token: rds-mysql-token
+      cc_api_version: v2
+      check_orphan_interval: 7200
+
+- name: service_nodes
+  release: <%= find("releases")[0]["name"] %>
+  template:
+  - mysql_node_external
+  instances: 1
+  resource_pool: services-large
+  persistent_disk: 7168
+  networks:
+  - name: services
+    static_ips:
+    - <%= ip( 3, 'services.static') %>
+  properties:
+    plan: "100"
+    mysql_node:
+      plan: "free"
+      external_dbs:
+      - address: "<%= find("properties.mysql-service-public.address") %>"
+        port: <%= find("properties.mysql-service-public.port") %>
+        <%- role = find("properties.mysql-service-public.roles").detect{|hash| hash['tag'] == 'admin'} -%>
+        user: "<%= role['name'] %>"
+        password: "<%= role['password'] %>"
+
+
+properties:
+  template_only:
+    <%= find("properties.template_only").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
+
+  domain: <%= find("properties.domain") %>
+
+  networks:
+    services: services
+
+  nats:
+    user: nats
+    password: "c1oudc0wc1oudc0w"
+    address: <%= ip( 2, 'cf.static') %>
+    port: 4222
+    authorization_timeout: 5  # AWS is slow, use longer timeout
+
+  # this property is not directy used, but needs to be kept for future runs of bosh diff
+  mysql-service-public:
+    <%= find("properties.mysql-service-public").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
+
+  cc: &cc
+    srv_api_uri: http://ccng.<%= find("properties.domain") %>
+
+  service_plans:
+    rds_mysql:
+      "free":
+        description: "Shared service instance, 1MB memory, 10MB storage, 10 connections"
+        job_management:
+          high_water: 900
+          low_water: 100
+        configuration:
+          capacity: 100
+          max_db_size: 10
+          key_buffer: 128
+          innodb_buffer_pool_size: 128
+          max_allowed_packet: 16
+          thread_cache_size: 8
+          query_cache_size: 8
+          max_long_query: 3
+          max_long_tx: 30
+          max_clients: 10
+          max_connections: 100
+          table_open_cache: 200
+          innodb_tables_per_database: 100
+          connection_pool_size:
+            min: 5
+            max: 10
+          backup:
+            # enable: true
+          lifecycle:
+            # enable: true
+            serialization: enable
+            snapshot:
+              quota: 1
+          warden:
+            enable: false
+
+  syslog_aggregator:
+    address: <%= ip( 1, 'cf.static') %>
+    port: 54321
+
