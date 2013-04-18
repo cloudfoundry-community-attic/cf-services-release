@@ -30,6 +30,8 @@ update:
   max_errors: 1
 
 networks:
+# Keeping the cf network here so that we can lookup NATS and syslog aggregator
+# addresses
 - name: cf
   type: manual
   subnets:
