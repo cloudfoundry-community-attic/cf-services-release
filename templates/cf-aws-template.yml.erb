@@ -154,7 +154,7 @@ properties:
   nats:
     user: nats
     password: "c1oudc0wc1oudc0w"
-    address: <%= ip( 2, 'cf.static') %>
+    address: 10.10.2.12
     port: 4222
     authorization_timeout: 5  # AWS is slow, use longer timeout
 
@@ -200,6 +200,6 @@ properties:
             enable: false
 
   syslog_aggregator:
-    address: <%= ip( 1, 'cf.static') %>
+    address: 10.10.2.11
     port: 54321
 
