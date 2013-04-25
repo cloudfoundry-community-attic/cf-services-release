@@ -6,13 +6,14 @@
 <% users.unshift "admin|#{random_string 12, :admin}|scim.write,scim.read,openid,cloud_controller.admin" unless admin_user -%>
 <% users << "services|#{random_string 12, :services}|scim.write,scim.read,openid,cloud_controller.admin" unless services_user -%>
 <% services_userid, services_password = services_user.split("\|")[0..1] if services_user -%>
+<% name = find("name") %>
 
-name: <%= find("name") %>
+name: <%= name.end_with?("-services") ? name : "#{name}-services" %>
 director_uuid: <%= find("director_uuid") %>
 
 releases:
-- name: <%= find("releases")[0]["name"] %>
-  version: <%= find("releases")[0]["version"] %>
+- name: cf-services-release
+  version: latest
 
 compilation:
   workers: 3
@@ -98,7 +99,7 @@ jobs:
 # ====================== BEGIN SERVICES JOBS =========================
 
 - name: service_gateways
-  release: <%= find("releases")[0]["name"] %>
+  release: cf-services-release
   template:
   - rds_mysql_gateway
   instances: 1
@@ -120,7 +121,7 @@ jobs:
       check_orphan_interval: 7200
 
 - name: service_nodes
-  release: <%= find("releases")[0]["name"] %>
+  release: cf-services-release
   template:
   - mysql_node_external
   instances: 1
@@ -131,9 +132,8 @@ jobs:
     static_ips:
     - <%= ip( 3, 'services.static') %>
   properties:
-    plan: "100"
     mysql_node:
-      plan: "free"
+      plan: "10mb"
       external_dbs:
       - address: "<%= find("properties.mysql-service-public.address") %>"
         port: <%= find("properties.mysql-service-public.port") %>
@@ -203,3 +203,9 @@ properties:
     address: 10.10.2.11
     port: 54321
 
+  uaa:
+    scim:
+      users:
+<% users.each do |u| -%>
+      - <%= u %>
+<% end -%>
