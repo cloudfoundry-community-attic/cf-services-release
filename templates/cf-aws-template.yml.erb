@@ -17,7 +17,7 @@ releases:
 
 compilation:
   workers: 3
-  network: services
+  network: services1
   reuse_compilation_vms: true
   cloud_properties:
     instance_type: c1.medium
@@ -31,44 +31,26 @@ update:
   max_errors: 1
 
 networks:
-# Keeping the cf network here so that we can lookup NATS and syslog aggregator
-# addresses
-- name: cf
+- name: services1
   type: manual
   subnets:
-  - range: 10.10.2.0/23
+  - range: 10.10.32.0/20
     name: default_unused
     reserved:
-    - 10.10.2.2 - 10.10.2.9
+    - 10.10.32.2 - 10.10.32.9
     static:
-    - 10.10.2.10 - 10.10.2.30
-    gateway: 10.10.2.1
+    - 10.10.32.10 - 10.10.32.255
+    gateway: 10.10.32.1
     dns:
     - 10.10.0.2  # amazon has only 1 DNS server for the whole VPC at x.x.0.2
     cloud_properties:
       security_groups:
       - cf
-      subnet: <%= find('properties.template_only.aws.subnet_ids.cf') %>
-- name: services
-  type: manual
-  subnets:
-  - range: 10.10.4.0/23
-    name: default_unused
-    reserved:
-    - 10.10.4.2 - 10.10.4.9
-    static:
-    - 10.10.4.10 - 10.10.4.30
-    gateway: 10.10.4.1
-    dns:
-    - 10.10.0.2  # amazon has only 1 DNS server for the whole VPC at x.x.0.2
-    cloud_properties:
-      security_groups:
-      - cf
-      subnet: <%= find('properties.template_only.aws.subnet_ids.services') %>
+      subnet: <%= find('properties.template_only.aws.subnet_ids.services1') %>
 
 resource_pools:
 - name: services-small
-  network: services
+  network: services1
   size: 1
   stemcell:
     name: bosh-stemcell
@@ -77,7 +59,7 @@ resource_pools:
     instance_type: m1.small
     availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
 - name: services-smallfast
-  network: services
+  network: services1
   size: 1
   stemcell:
     name: bosh-stemcell
@@ -86,7 +68,7 @@ resource_pools:
     instance_type: c1.medium
     availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
 - name: services-large
-  network: services
+  network: services1
   size: 1
   stemcell:
     name: bosh-stemcell
@@ -108,7 +90,7 @@ jobs:
   networks:
   - name: services
     static_ips:
-    - <%= ip( 2, 'services.static') %>
+    - <%= ip( 2, 'services1.static') %>
   properties:
     uaa_client_id: "cf"
     uaa_endpoint: http://uaa.<%= find("properties.domain") %>
@@ -130,7 +112,7 @@ jobs:
   networks:
   - name: services
     static_ips:
-    - <%= ip( 3, 'services.static') %>
+    - <%= ip( 3, 'services1.static') %>
   properties:
     mysql_node:
       plan: "10mb"
@@ -154,7 +136,7 @@ properties:
   nats:
     user: nats
     password: "c1oudc0wc1oudc0w"
-    address: 10.10.2.12
+    address: 10.10.16.11  # <%#= ip( 1, 'cf1.static') %>
     port: 4222
     authorization_timeout: 5  # AWS is slow, use longer timeout
 
@@ -200,7 +182,7 @@ properties:
             enable: false
 
   syslog_aggregator:
-    address: 10.10.2.11
+    address: 10.10.16.10
     port: 54321
 
   uaa:
