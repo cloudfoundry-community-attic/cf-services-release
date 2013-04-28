@@ -49,15 +49,6 @@ networks:
       subnet: <%= find('properties.template_only.aws.subnet_ids.services1') %>
 
 resource_pools:
-- name: services-small
-  network: services1
-  size: 1
-  stemcell:
-    name: bosh-stemcell
-    version: latest
-  cloud_properties:
-    instance_type: m1.small
-    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
 - name: services-smallfast
   network: services1
   size: 1
@@ -90,7 +81,7 @@ jobs:
   networks:
   - name: services1
     static_ips:
-    - <%= ip( 2, 'services1.static') %>
+    - <%= ip( 0, 'services1.static') %>
   properties:
     uaa_client_id: "cf"
     uaa_endpoint: http://uaa.<%= find("properties.domain") %>
@@ -112,7 +103,7 @@ jobs:
   networks:
   - name: services1
     static_ips:
-    - <%= ip( 3, 'services1.static') %>
+    - <%= ip( 1, 'services1.static') %>
   properties:
     mysql_node:
       plan: "10mb"
