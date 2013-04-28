@@ -6,6 +6,5 @@ dependencies:
 - ruby
 files:
 - services/ng/mysql/**/*
-- services_warden/warden/**/*
 - pkg_utils/*
 - common/services/utils.sh
