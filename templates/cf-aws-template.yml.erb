@@ -88,7 +88,7 @@ jobs:
   resource_pool: services-smallfast
   persistent_disk: 7168
   networks:
-  - name: services
+  - name: services1
     static_ips:
     - <%= ip( 2, 'services1.static') %>
   properties:
@@ -110,7 +110,7 @@ jobs:
   resource_pool: services-large
   persistent_disk: 7168
   networks:
-  - name: services
+  - name: services1
     static_ips:
     - <%= ip( 3, 'services1.static') %>
   properties:
