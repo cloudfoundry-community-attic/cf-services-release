@@ -33,6 +33,7 @@ max_long_query: <%= plan_enabled && plan_conf.max_long_query || 3 %>
 max_long_tx: <%= plan_enabled && plan_conf.max_long_tx || 0 %>
 kill_long_tx: <%= plan_enabled && !plan_conf.kill_long_tx.nil? ? plan_conf.kill_long_tx : 'true' %>
 max_user_conns: <%= plan_enabled && plan_conf.max_clients || 20 %>
+mysql_provider: 'rds'
 mysql:
   "n/a":
     host: "<%= external_db.address %>"
