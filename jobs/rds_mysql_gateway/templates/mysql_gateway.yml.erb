@@ -26,6 +26,9 @@ service:
   version: 'n/a'
   description: 'RDS MySQL by Amazon'
   provider: aws
+  provider_name: 'AWS'
+  logo_url: 'https://s3.amazonaws.com/cf-core-service-assets/mysql_aws_rds.png'
+  blurb: 'Amazon MySQL Relational Database Service'
   plans:
   <% if plan_enabled %>
     <% for plan in plan_mgmt.fields.each %>
