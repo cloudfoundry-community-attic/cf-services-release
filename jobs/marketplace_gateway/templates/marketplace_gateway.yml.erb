@@ -19,6 +19,7 @@ index: <%= spec.index %>
 mbus: <%= nats %>
 pid: /var/vcap/sys/run/marketplace_gateway/marketplace_gateway.pid
 external_uri: <%= props.external_uri %>
+notification_email_domain: <%= "space-#{properties.domain}" %>
 
 <% if acls %>
 acls:
