@@ -1,3 +1,6 @@
-#!/bin/bash -x
+#!/bin/bash
+set -x -u -e
 
-git pull origin master && git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
+git pull
+git submodule foreach --recursive git submodule sync
+git submodule update --init --recursive
