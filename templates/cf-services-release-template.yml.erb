@@ -86,6 +86,7 @@ jobs:
       version_aliases:
         current: "n/a"
 
+<% if find("properties")["marketplace_gateway"] && find("properties")["marketplace_gateway"]["service_auth_tokens"] %>
 - name: marketplace_gateway
   template:
   - marketplace_gateway
@@ -192,6 +193,7 @@ jobs:
         endpoint: "https://dev3cloudfoundry.appdirect.com"
         key: <%= find("properties.marketplace_gateway.appdirect.key") %>
         secret: <%= find("properties.marketplace_gateway.appdirect.secret") %>
+<% end %>
 
 - name: mysql_node_10mb
   template:
