@@ -32,11 +32,14 @@ service:
   plans:
   <% if plan_enabled %>
     <% for plan in plan_mgmt.fields.each %>
-    <% plan_description = plan_mgmt.send(plan.to_sym).description || "#{plan} plan" %>
-    <% plan_free_flag = plan_mgmt.send(plan.to_sym).free %>
+    <% plan_info = plan_mgmt.send(plan.to_sym) %>
+    <% plan_description = plan_info.description || "#{plan} plan" %>
+    <% plan_free_flag   = plan_info.free %>
+    <% extra            = plan_info.extra %>
     <%= "'#{plan}':" %>
       description: <%= "'#{plan_description}'" %>
       free: <%= !plan_free_flag.nil? && plan_free_flag.to_s || "true" %>
+      extra: <%= "'#{extra}'" %>
     <% end %>
   <% end %>
   default_plan: '<%= gateway.default_plan || 'free' %>'
