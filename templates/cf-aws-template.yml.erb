@@ -142,6 +142,7 @@ properties:
     rds_mysql:
       "10mb":
         description: "Shared service, 10MB storage, 10 connections"
+        extra: '{"cost":0.0,"bullets":[{"content":"10 MB storage"},{"content":"10 connections"}]}'
         job_management:
           high_water: 900
           low_water: 100
@@ -156,7 +157,7 @@ properties:
           max_long_query: 3
           max_long_tx: 30
           max_clients: 10
-          max_connections: 100
+          max_connections: 10
           table_open_cache: 200
           innodb_tables_per_database: 100
           connection_pool_size:
