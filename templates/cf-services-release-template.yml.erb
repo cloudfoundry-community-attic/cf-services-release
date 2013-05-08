@@ -259,6 +259,7 @@ properties:
   service_plans:
     rds_mysql:
       "10mb":
+        unique_id: '78ad16cf-3c22-4427-a982-b9d35d746914'
         description: "Shared service instance, 10MB storage, 3 connections"
         extra: '{"cost":5.0,"bullets":[{"content":"10 MB storage"},{"content":"3 concurrent connections"},{"content":"Shared server"}]}'
         job_management:
@@ -270,6 +271,7 @@ properties:
           max_long_tx: 30
           max_clients: 3   # largest RDS instance defaults to 5800 connections max total
       "cfinternal":
+        unique_id: 'aa12cfe4-37ee-47a0-ad91-3c0a9115c274'
         description: "Shared CloudFoundry internal plan, 50GB storage, 50 connections"
         extra: '{"cost":0.0,"bullets":[{"content":"For internal use"},{"content":"50 GB storage"},{"content":"50 concurrent connections"},{"content":"Shared server"}]}'
         job_management:

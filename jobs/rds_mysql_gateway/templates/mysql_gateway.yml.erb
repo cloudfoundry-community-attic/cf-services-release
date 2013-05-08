@@ -23,6 +23,7 @@ cloud_controller_uri: <%= properties.cc.srv_api_uri %>
 
 service:
   name: 'rds_mysql'
+  unique_id: '17523a3a-44fe-4c59-a962-af6cd06e0f92'
   version: 'n/a'
   description: 'RDS MySQL by Amazon'
   provider: aws
@@ -36,7 +37,9 @@ service:
     <% plan_description = plan_info.description || "#{plan} plan" %>
     <% plan_free_flag   = plan_info.free %>
     <% extra            = plan_info.extra %>
+    <% unique_id        = plan_info.unique_id %>
     <%= "'#{plan}':" %>
+      unique_id: <%= "'#{unique_id}'" %>
       description: <%= "'#{plan_description}'" %>
       free: <%= !plan_free_flag.nil? && plan_free_flag.to_s || "true" %>
       extra: <%= "'#{extra}'" %>
