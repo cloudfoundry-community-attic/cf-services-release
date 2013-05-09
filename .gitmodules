@@ -7,3 +7,6 @@
 [submodule "src/tests"]
 	path = src/tests
 	url = https://github.com/cloudfoundry/vcap-yeti.git
+[submodule "shared"]
+	path = shared
+	url = git@github.com:cloudfoundry/shared-release-packages.git
