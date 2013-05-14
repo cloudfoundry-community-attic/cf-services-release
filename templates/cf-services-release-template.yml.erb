@@ -10,7 +10,7 @@
 <% name = find("name") %>
 
 # ENV variables for Yeti:
-# $ export SERVICE_BROKER_URL=http://service-broker.<%= find("properties.domain") %>
+# $ export SERVICE_BROKER_URL=http://service-broker.<%= find("properties.system_domain") %>
 # $ export SERVICE_BROKER_TOKEN=broker-token
 
 name: <%= name.end_with?("-services") ? name : "#{name}-services" %>
@@ -75,7 +75,7 @@ jobs:
   - name: services1
   properties:
     uaa_client_id: "vmc"
-    uaa_endpoint: https://uaa.<%= find("properties.domain") %>
+    uaa_endpoint: https://uaa.<%= find("properties.system_domain") %>
     uaa_client_auth_credentials:
       username: <%= services_userid || "services" %>
       password: <%= services_password || random_string(12, :services) %>
@@ -132,6 +132,7 @@ properties:
     <%= find("properties.template_only").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
 
   domain: <%= find("properties.domain") %>
+  system_domain: <%= find("properties.system_domain") %>
 
   nats:
     user: <%= find("properties.nats.user") %>
@@ -144,7 +145,7 @@ properties:
     services: services1
 
   cc: &cc
-    srv_api_uri: https://ccng.<%= find("properties.domain") %>
+    srv_api_uri: https://ccng.<%= find("properties.system_domain") %>
 
   syslog_aggregator:
     address: 10.10.16.10
