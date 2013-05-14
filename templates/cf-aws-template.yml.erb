@@ -120,6 +120,7 @@ properties:
     <%= find("properties.template_only").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
 
   domain: <%= find("properties.domain") %>
+  system_domain: <%= find("properties")["system_domain"] || find("properties.domain") %>
 
   networks:
     services: services1
