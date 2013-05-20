@@ -59,7 +59,7 @@ resource_pools:
   size: 3
   stemcell:
     name: bosh-stemcell
-    version: latest
+    version: 644
   cloud_properties:
     instance_type: m1.small
     availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
