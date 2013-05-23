@@ -9,4 +9,4 @@
 	url = https://github.com/cloudfoundry/vcap-yeti.git
 [submodule "shared"]
 	path = shared
-	url = git@github.com:cloudfoundry/shared-release-packages.git
+	url = https://github.com/cloudfoundry/shared-release-packages.git
