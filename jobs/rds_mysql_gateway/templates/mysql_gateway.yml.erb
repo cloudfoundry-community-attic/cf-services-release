@@ -47,9 +47,11 @@ service:
   <% end %>
   default_plan: '<%= gateway.default_plan || 'free' %>'
   cf_plan_id:
+<% if plan_mgmt %>
 <% plan_mgmt.fields.each do |pf| %>
     <%= "'#{pf}': #{plan_mgmt.send(pf).configuration.cf_plan_id}" %>
-<% end if plan_mgmt %>
+<% end %>
+<% end %>
   tags: ['relational']
   timeout: <%= properties.rds_mysql_gateway.service_timeout || 10 %>
   version_aliases: {}
