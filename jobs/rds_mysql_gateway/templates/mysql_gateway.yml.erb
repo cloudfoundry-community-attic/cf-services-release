@@ -1,6 +1,6 @@
 ---
 <%
-service = "rds_mysql"
+service = "rds-mysql"
 gateway = eval("properties.#{service}_gateway")
 plan_enabled = properties.service_plans && properties.service_plans.send(service.to_sym)
 plan_mgmt = plan_enabled && properties.service_plans.send(service.to_sym)
@@ -22,7 +22,7 @@ port: 33884
 cloud_controller_uri: <%= properties.cc.srv_api_uri %>
 
 service:
-  name: 'rds_mysql'
+  name: 'rds-mysql'
   unique_id: '17523a3a-44fe-4c59-a962-af6cd06e0f92'
   version: 'n/a'
   description: 'RDS MySQL by Amazon'
@@ -51,7 +51,7 @@ service:
     <%= "'#{pf}': #{plan_mgmt.send(pf).configuration.cf_plan_id}" %>
 <% end if plan_mgmt %>
   tags: ['relational']
-  timeout: <%= properties.rds_mysql_gateway.service_timeout || 10 %>
+  timeout: <%= properties.rds-mysql_gateway.service_timeout || 10 %>
   version_aliases: {}
 
 <% if gateway.ip_route %>
@@ -67,20 +67,20 @@ uaa_client_auth_credentials:
   username: <%= properties.uaa_client_auth_credentials.username %>
   password: "<%= properties.uaa_client_auth_credentials.password %>"
 service_auth_tokens:
-  rds_mysql_aws: "<%= gateway.token %>"
+  rds-mysql_aws: "<%= gateway.token %>"
 
 token: "<%= gateway.token %>"
 logging:
-  file: /var/vcap/sys/log/rds_mysql_gateway/mysql_gateway.log
+  file: /var/vcap/sys/log/rds-mysql_gateway/mysql_gateway.log
   level: debug
   <% if properties.syslog_aggregator %>
-  syslog: vcap.rds_mysql_gateway
+  syslog: vcap.rds-mysql_gateway
   <% end %>
 
 
 node_timeout: <%= gateway.node_timeout || 8 %>
 
-pid: /var/vcap/sys/run/rds_mysql_gateway/mysql_gateway.pid
+pid: /var/vcap/sys/run/rds-mysql_gateway/mysql_gateway.pid
 z_interval: <%= gateway.z_interval || 30 %>
 check_orphan_interval: <%= gateway.check_orphan_interval || -1 %>
 double_check_orphan_interval: <%= gateway.double_check_orphan_interval || 300 %>
