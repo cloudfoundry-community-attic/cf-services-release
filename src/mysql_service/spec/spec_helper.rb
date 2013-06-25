@@ -12,7 +12,7 @@ def require_dir(dir_pattern)
 end
 
 
-require_dir '../../../vendor/integration-test-support/support/**/*.rb'
+require_dir '../vendor/integration-test-support/support/**/*.rb'
 require_dir 'support/**/*.rb'
 
 tmp_dir = File.expand_path('../tmp', File.dirname(__FILE__))
@@ -28,7 +28,7 @@ require 'rubygems'
 require 'rspec'
 require 'bundler/setup'
 require 'vcap_services_base'
-require "mysql_service/util"
+require 'mysql_service/util'
 require 'mysql_service/provisioner'
 require 'mysql_service/node'
 require 'sequel'

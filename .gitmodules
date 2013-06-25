@@ -1,12 +1,12 @@
 [submodule "src/services_warden"]
-	path = src/services_warden
-	url = https://github.com/cloudfoundry/warden.git
+  path = src/services_warden
+  url = https://github.com/cloudfoundry/warden.git
 [submodule "src/tests"]
-	path = src/tests
-	url = https://github.com/cloudfoundry/vcap-yeti.git
+  path = src/tests
+  url = https://github.com/cloudfoundry/vcap-yeti.git
 [submodule "shared"]
-	path = shared
-	url = https://github.com/cloudfoundry/shared-release-packages.git
-[submodule "src/services/vendor/integration-test-support"]
-  path = src/services/vendor/integration-test-support
+  path = shared
+  url = https://github.com/cloudfoundry/shared-release-packages.git
+[submodule "src/mysql_service/vendor/integration-test-support"]
+  path = src/mysql_service/vendor/integration-test-support
   url = https://github.com/cloudfoundry/integration-test-support.git

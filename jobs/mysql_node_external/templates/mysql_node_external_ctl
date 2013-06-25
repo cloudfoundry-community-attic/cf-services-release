@@ -45,7 +45,7 @@ case $1 in
     rsync -arl /var/vcap/packages/common/utils.sh $COMMON_DIR/bin
     chmod -R 755 $COMMON_DIR/bin
 
-    exec /var/vcap/packages/mysql_node_ng/services/ng/mysql/bin/mysql_node \
+    exec /var/vcap/packages/mysql_node_ng/mysql_service/bin/mysql_node \
          -c $JOB_DIR/config/mysql_node_external.yml \
          >>$LOG_DIR/mysql_node_external.stdout.log \
          2>>$LOG_DIR/mysql_node_external.stderr.log

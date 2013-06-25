@@ -5,5 +5,5 @@ dependencies:
 - sqlite
 - ruby
 files:
-- services/ng/mysql/**/*
+- mysql_service/**/*
 - pkg_utils/*
