@@ -1,5 +1,5 @@
 ---
-name: mysql_node_ng
+name: mysql_node
 
 templates:
   mysql_node_ctl: bin/mysql_node_ctl
@@ -33,7 +33,7 @@ templates:
 
 packages:
   - common
-  - mysql_node_ng
+  - mysql_node
   - mysqlclient
   - mysql
   - mysql55

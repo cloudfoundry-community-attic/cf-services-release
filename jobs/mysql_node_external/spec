@@ -8,7 +8,7 @@ templates:
 
 packages:
   - common
-  - mysql_node_ng
+  - mysql_node
   - mysqlclient
   - ruby
   - ruby_next

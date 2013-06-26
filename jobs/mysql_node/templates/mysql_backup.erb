@@ -23,7 +23,7 @@ case $1 in
   start)
     mkdir -p $MOUNT_POINT
     check_mount "$MT_OPTS" "$MT_EXPORT" "$MOUNT_POINT"
-    (crontab -l | sed /mysql_backup/d; cat /var/vcap/jobs/mysql_node_ng/config/mysql_backup.cron) | sed /^$/d | crontab
+    (crontab -l | sed /mysql_backup/d; cat /var/vcap/jobs/mysql_node/config/mysql_backup.cron) | sed /^$/d | crontab
 
     ;;
 
