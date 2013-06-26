@@ -2,7 +2,7 @@
 <%
 service = "mysql"
 plan_enabled = properties.service_plans && properties.service_plans.send(service.to_sym)
-plan = properties.plan || "free"
+plan = properties.mysql_node.plan
 plan_conf = plan_enabled && properties.service_plans.send(service.to_sym).send(plan.to_sym).configuration
 connection_pool_size = plan_enabled && plan_conf.connection_pool_size
 node = properties.mysql_node

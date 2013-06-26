@@ -1,7 +1,7 @@
 <%
 service = "mysql"
 plan_enabled = properties.service_plans && properties.service_plans.send(service.to_sym)
-plan = properties.plan || "free"
+plan = properties.mysql_node.plan
 plan_conf = plan_enabled && properties.service_plans.send(service.to_sym).send(plan.to_sym).configuration
 warden = plan_conf.warden
 use_warden = warden && warden.enable

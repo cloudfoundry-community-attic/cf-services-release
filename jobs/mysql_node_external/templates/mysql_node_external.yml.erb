@@ -2,10 +2,10 @@
 <%
 service = "rds_mysql"
 plan_enabled = properties.service_plans && properties.service_plans.send(service.to_sym)
-plan = properties.mysql_node.plan
+node = properties.mysql_node_external
+plan = node.plan
 plan_conf = plan_enabled && properties.service_plans.send(service.to_sym).send(plan.to_sym).configuration
 connection_pool_size = plan_enabled && plan_conf.connection_pool_size
-node = properties.mysql_node
 nats_props = properties.send(properties.nats_props || "nats")
 nats = "nats://#{nats_props.user}:#{nats_props.password}@#{nats_props.address}:#{nats_props.port}"
 external_db = node.external_dbs[spec.index]
