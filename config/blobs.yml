@@ -7,10 +7,6 @@ ruby/ruby-1.9.2-p180.tar.gz:
   object_id: rest/objects/4e4e78bca21e121004e4e7d511f55304f30690c88fd9
   sha: 6a482bc07239b37bcadf68dda63c65d20dc19ebe
   size: 11158935
-mysql/client-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
-  object_id: rest/objects/4e4e78bca21e122204e4e9863926b104fb68b259c9fc
-  sha: 6e5a17195831688a5f14f20aa5d9cd5d5f4164db
-  size: 4105211
 ruby/rubygems-1.8.24.tgz:
   object_id: rest/objects/4e4e78bca41e122204e4e9863d076304fa1cc28797a9
   sha: 30f27047e74f7943117736a0d3e224994fee0905
@@ -19,10 +15,30 @@ ruby/bundler-1.2.1.gem:
   object_id: rest/objects/4e4e78bca31e121204e4e86ee39692050a16252f052f
   sha: 0cbe6ad7a41f064d6c11c1058465fffb1bd58069
   size: 226816
+mysql/client-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
+  object_id: rest/objects/4e4e78bca21e122204e4e9863926b104fb68b259c9fc
+  sha: 6e5a17195831688a5f14f20aa5d9cd5d5f4164db
+  size: 4105211
 mysql/client-5.5.29-rel29.4-401.Linux.x86_64.tar.gz:
   object_id: rest/objects/4e4e78bca41e121004e4e7d517618f0510b21d28a2bb
   sha: 8dad5b2d9fee7b0a98e419949c6f7d94c39443f2
   size: 4564276
+mysql/mysql-initdb-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
+  object_id: rest/objects/4e4e78bca31e122204e4e9863b1b74050ac8c6ab8fee
+  sha: 8122bcd96c3fa251ce6a4317570d01b4bf2b8420
+  size: 53356
+mysql/mysql-initdb-5.5.29-rel29.4-401.Linux.x86_64.tar.gz:
+  object_id: rest/objects/4e4e78bca11e122204e4e98638b7630510b21d03bb63
+  sha: fb9485c21e1d8679987d1b60dfd7812e8b4b4c21
+  size: 421383
+mysql/server-5.1.62-rel13.3-435-Linux-x86_64.tar.gz:
+  object_id: rest/objects/4e4e78bca31e121004e4e7d514745f04fb68b2898dd0
+  sha: 2bfd575545fe78729c56bb832aa69d8d9fc8630d
+  size: 34179263
+mysql/server-5.5.29-rel29.4-401.Linux.x86_64.tar.gz:
+  object_id: rest/objects/4e4e78bca11e122004e4e8ec6484310510b21c863a27
+  sha: 5e0ab03805732259935a4e45c163f66e2450df2b
+  size: 59624889
 libyaml/yaml-0.1.4.tgz:
   object_id: rest/objects/4e4e78bca51e122004e4e8ec6840770511d35ffc91bd
   sha: e0e5e09192ab10a607e3da2970db492118f560f2
