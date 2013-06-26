@@ -20,29 +20,29 @@ xlog_enforce_tolerance: 5
 db_connect_timeout: 7
 db_query_timeout: 15
 db_use_async_query: true
-use_warden: true
+use_warden: false
 warden:
   port_range:
     first: 25001
     last: 45000
   service_log_dir: /var/vcap/services/postgresql/log
   service_bin_dir:
-    '9.2': /var/vcap/packages/postgresql92
+    '9.1': /usr/bin
   service_common_dir: /var/vcap/store/postgresql_common
   image_dir: /var/vcap/services/postgresql/image
   service_start_timeout: 10
   filesystem_quota: false
 postgresql:
-  '9.2':
+  '9.1':
     host: 127.0.0.1
-    port: 5434
+    port: 5432
     user: vcap
     pass: vcap
     database: postgres
-    restore_bin: /var/vcap/packages/postgresql92/bin/pg_restore
-    dump_bin: /var/vcap/packages/postgresql92/bin/pg_dump
-supported_versions: ['9.2']
-default_version: '9.2'
+    restore_bin: pg_restore
+    dump_bin: pg_dump
+supported_versions: ['9.1']
+default_version: '9.1'
 
 # z_interval: 30
 # fqdn_hosts: false
