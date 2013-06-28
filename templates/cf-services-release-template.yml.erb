@@ -107,26 +107,6 @@ jobs:
         user: "<%= role['name'] %>"
         password: "<%= role['password'] %>"
 
-- name: mysql_node_cfinternal
-  release: cf-services-release
-  template:
-  - mysql_node_external
-  instances: 1
-  resource_pool: services-small
-  networks:
-  - name: services1
-    static_ips:
-    - <%= ip( 2, 'services1.static') %>
-  properties:
-    mysql_node:
-      plan: "cfinternal"
-      external_dbs:
-      - address: "<%= find("properties.mysql-service-cf-internal.address") %>"
-        port: <%= find("properties.mysql-service-cf-internal.port") %>
-        <%- role = find("properties.mysql-service-cf-internal.roles").detect{|hash| hash['tag'] == 'admin'} -%>
-        user: "<%= role['name'] %>"
-        password: "<%= role['password'] %>"
-
 properties:
   template_only:
     <%= find("properties.template_only").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
@@ -165,20 +145,6 @@ properties:
           max_db_size: 10
           max_long_tx: 30
           max_clients: 3   # largest RDS instance defaults to 5800 connections max total
-      "cfinternal":
-        unique_id: 'aa12cfe4-37ee-47a0-ad91-3c0a9115c274'
-        description: "Shared CloudFoundry internal plan, 50GB storage, 50 connections"
-        extra: '{"cost":0.0,"bullets":[{"content":"For internal use"},{"content":"50 GB storage"},{"content":"50 concurrent connections"},{"content":"Shared server"}]}'
-        job_management:
-          high_water: 10
-          low_water: 1
-        configuration:
-          capacity: 20
-          max_db_size: 50000
-          max_long_tx: 30
-          max_long_query: 60
-          max_clients: 50
-
   uaa:
     <%= find("properties.uaa").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
 
