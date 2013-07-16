@@ -77,7 +77,8 @@ jobs:
     - dns
     - gateway
   properties:
-    plan: default
+    postgresql_node:
+      plan: default
 ```
 
 Note: each job above specifies `release: cf-service`.
