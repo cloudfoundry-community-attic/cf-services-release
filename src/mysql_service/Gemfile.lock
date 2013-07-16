@@ -8,9 +8,10 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-common.git
-  revision: 3a0127e77d6cd7590916b0d0ca0d4bdfc1a115a3
+  revision: 41db379ba7ec7c90b65733c4f7c6f899874e592e
   specs:
-    vcap_common (2.0.10)
+    vcap_common (2.2.0)
+      addressable (~> 2.2)
       em-http-request (~> 1.0)
       eventmachine
       httpclient
@@ -19,6 +20,8 @@ GIT
       multipart-post
       nats (~> 0.4.24)
       posix-spawn (~> 0.3.6)
+      squash_ruby
+      steno
       thin
       vmstat (~> 2.0)
       yajl-ruby
@@ -66,6 +69,7 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     addressable (2.2.8)
+    backports (3.3.3)
     bcrypt-ruby (2.1.4)
     beefcake (0.3.7)
     builder (3.0.0)
@@ -88,6 +92,7 @@ GEM
       dm-transactions (= 1.1.0)
       dm-types (= 1.1.0)
       dm-validations (= 1.1.0)
+    descendants_tracker (0.0.1)
     diff-lcs (1.2.2)
     dm-aggregates (1.1.0)
       dm-core (~> 1.1.0)
@@ -133,11 +138,25 @@ GEM
       em-socksify
       eventmachine (>= 1.0.0.beta.4)
       http_parser.rb (>= 0.5.3)
-    em-socksify (0.2.1)
+    em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.0.3)
     eventmachine_httpserver (0.2.1)
     fastercsv (1.5.5)
+    fluent-logger (0.4.6)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+      yajl-ruby (~> 1.0)
+    grape (0.5.0)
+      activesupport
+      builder
+      hashie (>= 1.2.0)
+      multi_json (>= 1.3.2)
+      multi_xml (>= 0.5.2)
+      rack (>= 1.3.0)
+      rack-accept
+      rack-mount
+      virtus
+    hashie (2.0.5)
     http_parser.rb (0.5.3)
     httpclient (2.3.3)
     i18n (0.6.1)
@@ -148,7 +167,9 @@ GEM
     membrane (0.0.2)
     mime-types (1.23)
     mono_logger (1.1.0)
+    msgpack (0.5.5)
     multi_json (1.7.6)
+    multi_xml (0.5.4)
     multipart-post (1.2.0)
     mysql2 (0.3.11)
     nats (0.4.24)
@@ -158,6 +179,10 @@ GEM
       thin (>= 1.3.1)
     posix-spawn (0.3.6)
     rack (1.5.2)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-mount (0.8.3)
+      rack (>= 1.0.0)
     rack-protection (1.5.0)
       rack
     rake (10.0.4)
@@ -192,6 +217,12 @@ GEM
       rack (~> 1.5, >= 1.5.2)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    squash_ruby (1.2.0)
+      json
+    steno (1.1.0)
+      fluent-logger
+      grape
+      yajl-ruby (~> 1.0)
     stringex (1.2.2)
     systemu (2.5.2)
     thin (1.3.1)
@@ -204,6 +235,9 @@ GEM
     uuidtools (2.1.4)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    virtus (0.5.5)
+      backports (~> 3.3)
+      descendants_tracker (~> 0.0.1)
     vmstat (2.0.0)
     yajl-ruby (1.1.0)
 
