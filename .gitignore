@@ -14,4 +14,4 @@ blobs
 #*
 .gitreview
 .cache
-Gemfile.lock
+/Gemfile.lock
