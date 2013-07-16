@@ -41,7 +41,6 @@ releases:
   version: 0.1-dev
 ...
 ```
-```
 
 Next, describe two new jobs _after all other jobs_. One for the `postgresql_gateway` job template and another for the first plan that will be offered to users, via `postgresql_node` job template.
 
