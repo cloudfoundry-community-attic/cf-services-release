@@ -8,7 +8,7 @@ require "uuidtools"
 require "mysql2"
 require "open3"
 require "thread"
-
+require "uri"
 
 module VCAP
   module Services
@@ -758,16 +758,18 @@ class VCAP::Services::Mysql::Node
     total
   end
 
-  def gen_credential(name, user, passwd, port)
+  def gen_credential(database, username, password, port)
     host = get_host
-    response = {
-      "name" => name,
+
+    {
+      "name" => database,
       "hostname" => host,
       "host" => host,
       "port" => port,
-      "user" => user,
-      "username" => user,
-      "password" => passwd,
+      "user" => username,
+      "username" => username,
+      "password" => password,
+      "uri" => generate_uri(username, password, host, port, database),
     }
   end
 
@@ -808,6 +810,17 @@ class VCAP::Services::Mysql::Node
         @logger.warn("with_connection failed: #{fmt_error(e)}")
       end
     end
+  end
+
+  private
+
+  def generate_uri(username, password, host, port, database)
+    scheme = 'mysql'
+    credentials = "#{username}:#{password}"
+    path = "/#{database}"
+
+    uri = URI::Generic.new(scheme, credentials, host, port, nil, path, nil, nil, nil)
+    uri.to_s
   end
 end
 

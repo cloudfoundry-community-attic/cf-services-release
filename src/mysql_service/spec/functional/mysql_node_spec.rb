@@ -449,6 +449,7 @@ describe "Mysql server node", components: [:nats] do
       binding["port"].should be
       binding["user"].should == binding["username"]
       binding["password"].should be
+      binding["uri"].should eq("mysql://#{binding["username"]}:#{binding["password"]}@#{binding["host"]}:#{binding["port"]}/#{@db["name"]}")
       @test_dbs[@db] << binding
       conn = connect_to_mysql(binding)
       expect {conn.query("Select 1")}.to_not raise_error
