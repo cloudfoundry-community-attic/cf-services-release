@@ -21,6 +21,7 @@ log-error = /var/vcap/sys/log/mysql/mysqld.err.log
 [mysqld]
 collation_server        = utf8_unicode_ci
 character_set_server    = utf8
+init_connect    = 'SET collation_connection = utf8_unicode_ci'
 user		= vcap
 socket		= <%= "#{base_folder}/mysqld.sock" %>
 port     	= 3306
