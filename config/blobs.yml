@@ -47,3 +47,8 @@ ruby/ruby-1.9.3-p392.tar.gz:
   object_id: rest/objects/4e4e78bca61e121204e4e86eebe5910513a3270968f3
   sha: ec75fcbd3b6b46ce6ec997ee4c86145b4abd5748
   size: 12557294
+rootfs/lucid64.tar.gz:
+  object_id: rest/objects/4e4e78bca61e122204e4e98643d9ae051782c701f072
+  sha: !binary |-
+    YjI2MzNiMmFiNDk2NGY5MTQwMmJiMmQ4ODlmMmYxMjQ0OWE4YjgyOA==
+  size: 199489185
