@@ -122,11 +122,11 @@ download_url_template: "http://<%= lifecycle.download_url %>/serialized/%{servic
 plan_management:
   plans:
 <% plan_mgmt.fields.each do |pf| %>
-    '<%= pf %>':
-      high_water: <%= plan_mgmt.send(pf).job_management.high_water %>
-      low_water: <%= plan_mgmt.send(pf).job_management.low_water %>
-      allow_over_provisioning: <%= plan_mgmt.send(pf).configuration.allow_over_provisioning || "false" %>
-    <% opts = plan_mgmt.send(pf).configuration.lifecycle %>
+    '<%= pf %>':<% job_management = plan_mgmt.send(pf).job_management %>
+      high_water: <%= job_management && job_management.high_water || 99999 %>
+      low_water: <%= job_management && job_management.low_water  || 0 %><% configuration = plan_mgmt.send(pf).configuration %>
+      allow_over_provisioning: <%= configuration.allow_over_provisioning || "false" %>
+    <% opts = configuration.lifecycle %>
     <% if opts && opts.enable == true %>
       lifecycle:
         serialization: <%= opts.serialization || "disable" %>

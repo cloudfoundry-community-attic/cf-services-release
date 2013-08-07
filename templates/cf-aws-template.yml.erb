@@ -49,35 +49,25 @@ networks:
       subnet: <%= find('properties.template_only.aws.subnet_ids.services1') %>
 
 resource_pools:
-- name: services-smallfast
+- name: services-small
   network: services1
-  size: 1
+  size: 2
   stemcell:
     name: bosh-stemcell
     version: latest
   cloud_properties:
-    instance_type: c1.medium
-    availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
-- name: services-large
-  network: services1
-  size: 1
-  stemcell:
-    name: bosh-stemcell
-    version: latest
-  cloud_properties:
-    instance_type: m1.large
+    instance_type: m1.small
     availability_zone: <%= find('properties.template_only.aws.availability_zone') %>
 
 jobs:
 # ====================== BEGIN SERVICES JOBS =========================
 
-- name: service_gateways
+- name: mysql_gateway
   release: cf-services-release
   template:
-  - rds_mysql_gateway
+  - mysql_gateway
   instances: 1
-  resource_pool: services-smallfast
-  persistent_disk: 7168
+  resource_pool: services-small
   networks:
   - name: services1
     static_ips:
@@ -88,31 +78,29 @@ jobs:
     uaa_client_auth_credentials:
       username: <%= services_userid || "services" %>
       password: <%= services_password || random_string(12, :services) %>
-    rds_mysql_gateway:
-      token: <%= find("properties.rds_mysql_gateway.token") %>
+    mysql_gateway:
       cc_api_version: v2
       check_orphan_interval: 7200
-
-- name: service_nodes
+      supported_versions:
+      - '5.5'
+      version_aliases:
+        "current": "5.5"
+- name: mysql_node
   release: cf-services-release
   template:
-  - mysql_node_external
+  - mysql_node
   instances: 1
-  resource_pool: services-large
-  persistent_disk: 7168
+  resource_pool: services-small
+  persistent_disk: 4096
   networks:
   - name: services1
     static_ips:
     - <%= ip( 1, 'services1.static') %>
   properties:
     mysql_node:
-      plan: "10mb"
-      external_dbs:
-      - address: "<%= find("properties.mysql-service-public.address") %>"
-        port: <%= find("properties.mysql-service-public.port") %>
-        <%- role = find("properties.mysql-service-public.roles").detect{|hash| hash['tag'] == 'admin'} -%>
-        user: "<%= role['name'] %>"
-        password: "<%= role['password'] %>"
+      plan: "100mb"
+      supported_versions:
+      - '5.5'
 
 
 properties:
@@ -132,48 +120,24 @@ properties:
     port: 4222
     authorization_timeout: 5  # AWS is slow, use longer timeout
 
-  # this property is not directy used, but needs to be kept for future runs of bosh diff
-  mysql-service-public:
-    <%= find("properties.mysql-service-public").to_yaml.split("\n")[1..-1].map{|line| " " * 4 + line}.join("\n").gsub(/\A\s{4}/, "") %>
-
   cc: &cc
-    srv_api_uri: http://ccng.<%= find("properties.domain") %>
+    srv_api_uri: http://api.<%= find("properties.domain") %>
+
+  mysql_gateway:
+    token: <%= find("properties.mysql_gateway.token") %>
 
   service_plans:
-    rds_mysql:
-      "10mb":
-        unique_id: 'a9a5f47c-134d-48e1-94db-26111b03a55f'
-        description: "Shared service, 10MB storage, 10 connections"
-        extra: '{"cost":0.0,"bullets":[{"content":"10 MB storage"},{"content":"10 connections"}]}'
-        job_management:
-          high_water: 900
-          low_water: 100
+    mysql:
+      "100mb":
+        unique_id: '3173ce70-fef2-11e2-b778-0800200c9a66'
+        description: "Shared service, 100MB storage, 10 connections per DB"
+        extra: '{"cost":0.0,"bullets":[{"content":"100 MB storage"},{"content":"10 connections per DB"}]}'
         configuration:
-          capacity: 100
-          max_db_size: 10
-          key_buffer: 128
-          innodb_buffer_pool_size: 128
-          max_allowed_packet: 16
-          thread_cache_size: 8
-          query_cache_size: 8
-          max_long_query: 3
-          max_long_tx: 30
+          capacity: 20
+          max_db_size: 100
+          innodb_buffer_pool_size: 512
           max_clients: 10
-          max_connections: 10
-          table_open_cache: 200
-          innodb_tables_per_database: 100
-          connection_pool_size:
-            min: 5
-            max: 10
-          backup:
-            # enable: true
-          lifecycle:
-            # enable: true
-            serialization: enable
-            snapshot:
-              quota: 1
-          warden:
-            enable: false
+          max_connections: 100
 
   syslog_aggregator:
     address: 10.10.16.10
