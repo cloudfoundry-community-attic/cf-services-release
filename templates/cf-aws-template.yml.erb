@@ -79,6 +79,7 @@ jobs:
       username: <%= services_userid || "services" %>
       password: <%= services_password || random_string(12, :services) %>
     mysql_gateway:
+      token: <%= find("properties.mysql_gateway.token") %>
       cc_api_version: v2
       check_orphan_interval: 7200
       supported_versions:
