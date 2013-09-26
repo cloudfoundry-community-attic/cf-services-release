@@ -575,19 +575,19 @@ describe "Mysql server node", components: [:nats] do
       expect do
         conn.query("call defaultfunc(@testcount)")
         conn.query("select @testcount")
-      end.should_not raise_error
+      end.not_to raise_error
       expect do
         conn.query("call myfunc(@testcount)")
         conn.query("select @testcount")
-      end.should_not raise_error # secuirty type should be invoker or a error will be raised.
+      end.not_to raise_error # secuirty type should be invoker or a error will be raised.
       expect do
         conn.query("call myfunc2(@testcount)")
         conn.query("select @testcount")
-      end.should_not raise_error
+      end.not_to raise_error
       expect do
         conn.query("call myfunc3(@testcount)")
         conn.query("select @testcount")
-      end.should_not raise_error
+      end.not_to raise_error
       EM.stop
     end
   end
