@@ -28,10 +28,10 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-services-base.git
-  revision: 17599348ae443b9a8b136681dca6a9056cd796e2
+  revision: 77515d35789eaa32322f46fe0c92da9e32b97c3e
   branch: master
   specs:
-    vcap_services_base (0.1.17)
+    vcap_services_base (0.2.0)
       cf-uaa-lib
       curb (~> 0.7.16)
       data_mapper (~> 1.2)
@@ -46,9 +46,9 @@ GIT
       ruby-hmac (~> 0.4.0)
       rubyzip (~> 0.9.8)
       sinatra (>= 1.2.3)
+      steno
       thin (>= 1.3.1)
-      vcap_common (>= 2.1.0)
-      vcap_logging (>= 1.0.2)
+      vcap_common (>= 2.2.1)
       warden-client
       warden-protocol
 
@@ -73,7 +73,7 @@ GEM
     bcrypt-ruby (3.1.1)
     beefcake (0.3.7)
     builder (3.2.2)
-    cf-uaa-lib (1.3.10)
+    cf-uaa-lib (2.0.0)
       multi_json
     ci_reporter (1.6.4)
       builder (>= 2.1.2)
@@ -198,9 +198,9 @@ GEM
       rack
     rake (10.1.0)
     redis (3.0.4)
-    redis-namespace (1.3.0)
+    redis-namespace (1.3.1)
       redis (~> 3.0.0)
-    resque (1.24.1)
+    resque (1.25.1)
       mono_logger (~> 1.0)
       multi_json (~> 1.0)
       redis-namespace (~> 1.2)
@@ -269,6 +269,6 @@ DEPENDENCIES
   uuidtools
   vcap_common!
   vcap_logging!
-  vcap_services_base!
+  vcap_services_base (~> 0.2)!
   warden-client!
   warden-protocol!
