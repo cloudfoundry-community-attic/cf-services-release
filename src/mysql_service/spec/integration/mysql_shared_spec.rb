@@ -114,7 +114,7 @@ describe "Shared multi-tenant MySQL", components: [:collector, :nats, :ccng, :my
         metrics[metric[:name]] << Integer(metric[:value])
       end
     end
-    @components.fetch(:collector).reaction_blk = reaction_blk
+    component!(:collector).reaction_blk = reaction_blk
 
     initial_db_count(metrics, "services.plans.available_capacity").should == 200
     initial_db_count(metrics, "services.plans.used_capacity").should == 0
