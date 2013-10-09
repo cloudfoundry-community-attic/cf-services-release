@@ -1,0 +1,81 @@
+---
+meta:
+  # override this in your stub to set the environment name,
+  # which is used for the deployment name
+  #
+  # i.e. cf-tabasco
+  environment: ~
+
+name: (( meta.environment "-v1-mysql" ))
+director_uuid: (( merge ))
+
+releases:
+- name: cf-services-release
+  version: latest
+
+compilation:
+  workers: 3
+  network: services1
+  reuse_compilation_vms: true
+  cloud_properties: (( merge ))
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-600000
+  update_watch_time: 30000-600000
+  max_in_flight: 4
+  max_errors: 1
+
+networks: (( merge ))
+
+resource_pools:
+- name: services-small
+  network: services1
+  size: (( auto ))
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+  cloud_properties: (( merge ))
+
+jobs:
+- name: mysql_gateway
+  release: cf-services-release
+  template:
+  - mysql_gateway
+  instances: 1
+  resource_pool: services-small
+  networks:
+  - name: services1
+    static_ips: (( static_ips(10) ))
+  properties:
+    mysql_gateway:
+      token: chuckecheese
+      cc_api_version: v2
+      check_orphan_interval: 7200
+      supported_versions:
+      - '5.5'
+      version_aliases:
+        "current": "5.5"
+- name: mysql_node
+  release: cf-services-release
+  template:
+  - mysql_node
+  instances: 1
+  resource_pool: services-small
+  persistent_disk: 4096
+  networks:
+  - name: services1
+    static_ips:
+    - (( static_ips(11) ))
+  properties:
+    mysql_node:
+      plan: "100mb"
+      supported_versions:
+      - '5.5'
+
+properties:
+  template_only:  (( merge ))
+  system_domain: (( merge ))
+  uaa_client_id: "cf"
+  uaa_endpoint: (( "http://uaa." system_domain ))
+  uaa_client_auth_credentials:  (( template_only.appdirect_gateway.uaa_client_auth_credentials ))
