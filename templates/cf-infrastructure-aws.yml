@@ -16,7 +16,7 @@ networks:
       cloud_properties:
         security_groups:
         - cf
-        subnet: (( properties.template_only.aws.subnet_ids.services1 ))
+        subnet: (( properties.template_only.aws.subnet_ids.services_v1_mysql_1 ))
 
 resource_pools:
   - name: services-small
