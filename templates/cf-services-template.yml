@@ -39,7 +39,7 @@ resource_pools:
 
 jobs:
 - name: mysql_gateway
-  release: cf-services-release
+  release: cf-services
   template:
   - mysql_gateway
   instances: 1
@@ -57,7 +57,7 @@ jobs:
       version_aliases:
         "current": "5.5"
 - name: mysql_node
-  release: cf-services-release
+  release: cf-services
   template:
   - mysql_node
   instances: 1
