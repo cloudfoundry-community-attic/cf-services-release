@@ -1,7 +1,7 @@
 compilation:
   cloud_properties:
     instance_type: c1.medium
-    availability_zone: (( properties.template_only.aws.availability_zone ))
+    availability_zone: (( properties.template_only.aws.availability_zone2 ))
 
 networks:
   - name: services_v1_mysql_1
@@ -22,7 +22,7 @@ resource_pools:
   - name: services-small
     cloud_properties:
       instance_type: m1.small
-      availability_zone: (( properties.template_only.aws.availability_zone ))
+      availability_zone: (( properties.template_only.aws.availability_zone2 ))
 
 properties:
   template_only: (( merge ))
