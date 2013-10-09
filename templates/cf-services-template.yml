@@ -65,8 +65,7 @@ jobs:
   persistent_disk: 4096
   networks:
   - name: services1
-    static_ips:
-    - (( static_ips(11) ))
+    static_ips: (( static_ips(11) ))
   properties:
     mysql_node:
       plan: "100mb"
