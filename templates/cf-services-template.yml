@@ -15,7 +15,7 @@ releases:
 
 compilation:
   workers: 3
-  network: services1
+  network: services_1_mysql_1
   reuse_compilation_vms: true
   cloud_properties: (( merge ))
 
@@ -30,7 +30,7 @@ networks: (( merge ))
 
 resource_pools:
 - name: services-small
-  network: services1
+  network: services_1_mysql_1
   size: (( auto ))
   stemcell:
     name: bosh-stemcell
