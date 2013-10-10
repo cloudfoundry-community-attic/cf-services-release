@@ -78,3 +78,18 @@ properties:
   uaa_client_id: "cf"
   uaa_endpoint: (( "http://uaa." system_domain ))
   uaa_client_auth_credentials:  (( template_only.appdirect_gateway.uaa_client_auth_credentials ))
+  service_plans:
+    mysql:
+      "100mb":
+        unique_id: '3173ce70-fef2-11e2-b778-0800200c9a66'
+        description: "Shared service, 100MB storage, 10 connections per DB"
+        extra: '{"cost":0.0,"bullets":[{"content":"100 MB storage"},{"content":"10 connections per DB"}]}'
+        configuration:
+          capacity: 20
+          max_db_size: 100
+          innodb_buffer_pool_size: 512
+          max_clients: 10
+          max_connections: 100
+  nats: (( merge ))
+  cc:
+    srv_api_uri: (( "https://api." system_domain ))
