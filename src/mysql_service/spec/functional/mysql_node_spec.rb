@@ -53,13 +53,16 @@ end
 describe "Mysql server node", components: [:nats] do
   include VCAP::Services::Mysql
 
+  before :all do
+    @tmpfiles = []
+  end
+
   before :each do
     @opts = getNodeTestConfig
     @opts.freeze
     @default_plan = "free"
     @default_version = @opts[:default_version]
     @default_opts = "default"
-    @tmpfiles = []
 
     # Setup code must be wrapped in EM.run
     EM.run do
@@ -81,6 +84,29 @@ describe "Mysql server node", components: [:nats] do
     @db["password"].should be
     @test_dbs[@db] = []
     @db_instance = @node.mysqlProvisionedService.get(@db["name"])
+  end
+
+  after :each do
+    EM.run do
+      @node.create_missing_pools if @node.use_warden
+      @test_dbs.keys.each do |db|
+        begin
+          name = db["name"]
+          @node.unprovision(name, @test_dbs[db])
+          @node.logger.info("Clean up temp database: #{name}")
+        rescue => e
+          @node.logger.info("Error during cleanup #{e}")
+        end
+      end if @test_dbs
+      EM.stop
+    end
+  end
+
+  after :all do
+    @tmpfiles.each do |tmpfile|
+      FileUtils.rm_r tmpfile
+    end
+    FileUtils.rm_rf @opts[:node_tmp_dir]
   end
 
   def new_instance
@@ -913,28 +939,5 @@ describe "Mysql server node", components: [:nats] do
         end
       end
     end
-  end
-
-  after :each do
-    EM.run do
-      @node.create_missing_pools if @node.use_warden
-      @test_dbs.keys.each do |db|
-        begin
-          name = db["name"]
-          @node.unprovision(name, @test_dbs[db])
-          @node.logger.info("Clean up temp database: #{name}")
-        rescue => e
-          @node.logger.info("Error during cleanup #{e}")
-        end
-      end if @test_dbs
-      EM.stop
-    end
-  end
-
-  after :all do
-    @tmpfiles.each do |tmpfile|
-      FileUtils.rm_r tmpfile
-    end
-    FileUtils.rm_rf @opts[:node_tmp_dir]
   end
 end
