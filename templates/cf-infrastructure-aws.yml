@@ -1,28 +1,31 @@
 compilation:
   cloud_properties:
     instance_type: c1.medium
-    availability_zone: (( properties.template_only.aws.availability_zone2 ))
+    availability_zone: (( properties.template_only.aws.availability_zone ))
 
 networks:
-  - name: services_v1_mysql_1
+  - name: services1
     type: (( merge ))
     subnets:
     - name: default_unused
-      range: (( merge ))
-      reserved: (( merge ))
-      static: (( merge ))
-      gateway: (( merge ))
+      range: 10.10.32.0/20
+      reserved:
+        - 10.10.32.0 - 10.10.33.255
+        - 10.10.36.1 - 10.10.47.255
+      static:
+        - 10.10.34.1 - 10.10.34.255
+      gateway: 10.10.32.1
       dns: (( merge ))
       cloud_properties:
         security_groups:
         - cf
-        subnet: (( properties.template_only.aws.subnet_ids.services_v1_mysql_1 ))
+        subnet: (( properties.template_only.aws.subnet_ids.services1 ))
 
 resource_pools:
   - name: services-small
     cloud_properties:
       instance_type: m1.small
-      availability_zone: (( properties.template_only.aws.availability_zone2 ))
+      availability_zone: (( properties.template_only.aws.availability_zone ))
 
 properties:
   template_only: (( merge ))
