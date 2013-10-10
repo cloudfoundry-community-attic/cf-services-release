@@ -155,7 +155,7 @@ describe "Shared multi-tenant MySQL", components: [:collector, :nats, :ccng, :my
   end
 
   def initial_db_count(metrics, key)
-    print "Waiting up to 60s for our VARZ to report"
+    print "Waiting up to 90s for our VARZ to report"
     90.times do
       if metrics[key] && metrics[key].first
         return metrics[key].first
