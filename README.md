@@ -6,7 +6,7 @@ This project is a bosh release containing services that work with Cloud Foundry 
 
 ```
 $ ./update
-$ echo -e "---\ndev_name: cf-services" > config/dev.yml
+$ printf '%s\n%s\n' '---' 'dev_name: cf-services' > config/dev.yml
 $ bosh create release --force
 $ bosh -n upload release
 ```
