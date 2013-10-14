@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-common.git
-  revision: 658be8a8f65388c0a182137245c2474b31198f00
+  revision: cc1d06f746cba7215497fc05c32ad175c819b726
   specs:
-    vcap_common (2.2.1)
+    vcap_common (2.2.2)
       addressable (~> 2.2)
       em-http-request (~> 1.0)
       eventmachine
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-services-base.git
-  revision: cc5bf4432fb2abba468299fc30345a3d1271ea5a
+  revision: ed0b9d298f339c9811f50da4dbbba099c86b2146
   branch: master
   specs:
     vcap_services_base (0.2.1)
