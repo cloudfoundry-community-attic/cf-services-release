@@ -6,6 +6,10 @@ meta:
   # i.e. cf-tabasco
   environment: ~
 
+  stemcell:
+    name: bosh-stemcell
+    version: latest
+
 name: (( meta.environment "-v1-mysql" ))
 director_uuid: (( merge ))
 
@@ -32,9 +36,7 @@ resource_pools:
 - name: services-small
   network: services_v1_mysql
   size: (( auto ))
-  stemcell:
-    name: bosh-stemcell
-    version: latest
+  stemcell: (( meta.stemcell ))
   cloud_properties: (( merge ))
 
 jobs:
