@@ -4,7 +4,7 @@ compilation:
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
 networks:
-  - name: services1
+  - name: services_v1_mysql
     type: manual
     subnets:
     - name: default_unused
