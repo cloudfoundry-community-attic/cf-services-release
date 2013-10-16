@@ -92,4 +92,5 @@ properties:
           max_connections: 100
   nats: (( merge ))
   cc:
-    srv_api_uri: (( "https://api." system_domain ))
+    srv_api_uri: (( protocol "://api."  system_domain ))
+    protocol: (( merge  || "https" ))
