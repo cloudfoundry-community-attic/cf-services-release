@@ -75,11 +75,10 @@ jobs:
       - '5.5'
 
 properties:
-  template_only:  (( merge ))
   system_domain: (( merge ))
   uaa_client_id: "cf"
   uaa_endpoint: (( "http://uaa." system_domain ))
-  uaa_client_auth_credentials:  (( template_only.appdirect_gateway.uaa_client_auth_credentials ))
+  uaa_client_auth_credentials:  (( appdirect_gateway.uaa_client_auth_credentials ))
   service_plans:
     mysql:
       "100mb":
