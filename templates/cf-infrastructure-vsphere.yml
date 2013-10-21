@@ -14,5 +14,3 @@ resource_pools:
       disk: 10480
       cpu: 1
 
-properties:
-  template_only: (( merge ))
