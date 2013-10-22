@@ -25,6 +25,7 @@ fi
 
 cd $FOLDER_NAME
 failure=0
+rvmsudo gem update --system
 rvmsudo gem install bundler --no-ri --no-rdoc
 rvmsudo bundle install --local && rvmsudo bundle exec rake spec --trace || failure=$?
 sudo pkill -f ruby || true
