@@ -103,7 +103,7 @@ describe "Shared multi-tenant MySQL", components: [:nats, :ccng, :mysql] do
     # what happens?
   end
 
-  it "advertises number of remaining databases in VARZ" do
+  it "advertises number of remaining databases in VARZ", components: [:collector, :nats, :ccng, :mysql] do
     metrics = {}
     reaction_blk = lambda do |data|
       metric = parse(data)
