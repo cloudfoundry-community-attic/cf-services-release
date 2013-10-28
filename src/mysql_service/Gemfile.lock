@@ -31,7 +31,7 @@ GIT
   revision: 2ae12082c4b1f284ee72b3e5151f9ac47a46cad6
   branch: master
   specs:
-    vcap_services_base (0.2.2)
+    vcap_services_base (0.2.3)
       cf-uaa-lib
       curb (~> 0.7.16)
       data_mapper (~> 1.2)
