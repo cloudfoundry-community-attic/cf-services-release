@@ -7,7 +7,7 @@ meta:
   environment: ~
 
   stemcell:
-    name: bosh-stemcell
+    name: (( merge ))
     version: latest
 
 name: (( meta.environment "-v1-mysql" ))
