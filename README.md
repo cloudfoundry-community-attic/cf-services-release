@@ -168,7 +168,7 @@ $ bosh deploy
 The service gateway and initial service node are now running and will appear to your Cloud Foundry users (BUT, please ahead, do not stop yet!).
 
 ```
-$ cf info --services
+$ cf services --marketplace
 ```
 
 Finally, install the `admin-cf-plugin` plugin for `cf` CLI and register the new service gateway:
