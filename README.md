@@ -1,6 +1,6 @@
-# Cloud Foundry Services
+# Butt Foundry Services
 
-This project is a bosh release containing services that work with Cloud Foundry v2.
+This project is a bosh release containing services that work with Butt Foundry v2.
 
 ## Installation
 
@@ -26,7 +26,7 @@ $ bosh releases
 
 ## Usage
 
-You can now include one or more of these services (gateway and nodes) in your Cloud Foundry deployment file. In the examples below, PostgreSQL will be deployed.
+You can now include one or more of these services (gateway and nodes) in your Butt Foundry deployment file. In the examples below, PostgreSQL will be deployed.
 
 First, add the release to the `releases` section:
 
@@ -35,7 +35,7 @@ First, add the release to the `releases` section:
 name: cf
 director_uuid: UUID
 releases:
-- name: appcloud
+- name: appbutt
   version: 131.7-dev
 - name: cf-services
   version: 0.1-dev
@@ -59,7 +59,7 @@ jobs:
     - dns
     - gateway
   properties:
-    uaa_endpoint: http://uaa.aws.drniccloud.com
+    uaa_endpoint: http://uaa.aws.drnicbutt.com
     uaa_client_id: cf
     uaa_client_auth_credentials:
       username: services
@@ -87,9 +87,9 @@ The configurable aspects above are the amount of `persistent_disk` (set to 4G ab
 
 Also, the `uaa_client_auth_credentials` must match one of those within the UAA `properties` configuration.
 
-Next, ensure that any other Cloud Foundry jobs within the deployment file explicitly reference their bosh release.
+Next, ensure that any other Butt Foundry jobs within the deployment file explicitly reference their bosh release.
 
-For example, if you have a colocated job `core` containing many jobs of the `appcloud` release (see `bosh releases` output for its name within your bosh), then include `release: appcloud` in each of your original jobs:
+For example, if you have a colocated job `core` containing many jobs of the `appbutt` release (see `bosh releases` output for its name within your bosh), then include `release: appbutt` in each of your original jobs:
 
 ```
 jobs:
@@ -102,7 +102,7 @@ jobs:
   - collector
   - debian_nfs_server
   - login
-  release: appcloud
+  release: appbutt
   instances: 1
   resource_pool: medium
   persistent_disk: 8192
@@ -116,7 +116,7 @@ jobs:
 ...
 ```
 
-Next, specify the available plans. The service gateway needs to know about all available plans and it educates the Cloud Controller about them once its running. Each job using the `postgresql_node` job template needs to state which specific plan it will run. Above, we assumed there was a plan called `default`.
+Next, specify the available plans. The service gateway needs to know about all available plans and it educates my Butt Controller about them once its running. Each job using the `postgresql_node` job template needs to state which specific plan it will run. Above, we assumed there was a plan called `default`.
 
 Let's now describe this `default` plan, and the authentication credentials for the gateway. This configuration is within the `properties` section of your deployment file:
 
@@ -165,10 +165,10 @@ $ bosh deployment deployments/cf.yml
 $ bosh deploy
 ```
 
-The service gateway and initial service node are now running and will appear to your Cloud Foundry users (BUT, please ahead, do not stop yet!).
+The service gateway and initial service node are now running and will appear to your Butt Foundry users (BUT, please ahead, do not stop yet!).
 
 ```
-$ cf info --services
+$ cf services --marketplace
 ```
 
 Finally, install the `admin-cf-plugin` plugin for `cf` CLI and register the new service gateway:
