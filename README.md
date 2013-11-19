@@ -6,7 +6,7 @@ This project is a bosh release containing services that work with Cloud Foundry 
 
 ```
 $ ./update
-$ echo "---\ndev_name: cf-services" > config/dev.yml
+$ printf '%s\n%s\n' '---' 'dev_name: cf-services' > config/dev.yml
 $ bosh create release --force
 $ bosh -n upload release
 ```
@@ -49,7 +49,7 @@ jobs:
 ...
 - name: service_gateways
   template:
-  - postgresql_gateway
+  - mysql_gateway
   release: cf-services
   resource_pool: small
   instances: 1
@@ -66,7 +66,7 @@ jobs:
       password: c1oudc0w
 - name: postgresql_service_node
   template:
-  - postgresql_node
+  - mysql_node
   release: cf-services
   instances: 1
   resource_pool: small
