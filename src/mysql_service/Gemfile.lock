@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-common.git
-  revision: cc1d06f746cba7215497fc05c32ad175c819b726
+  revision: 337670ed387158e30fdc20a17ec5c8598cbc5d76
   specs:
     vcap_common (2.2.2)
       addressable (~> 2.2)
@@ -18,20 +18,21 @@ GIT
       membrane (~> 0.0.2)
       mime-types
       multipart-post
-      nats (~> 0.4.24)
+      nats (>= 0.5.0.beta.12, < 0.6)
       posix-spawn (~> 0.3.6)
       squash_ruby
       steno
       thin
+      uuidtools
       vmstat (~> 2.0)
       yajl-ruby
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-services-base.git
-  revision: 4ff8cad9c0d1f4af4a6ca1899e0340538fdbd1b5
+  revision: d06292b07403c84c9c5e7299440e0a3b54ae80f8
   branch: master
   specs:
-    vcap_services_base (0.2.3)
+    vcap_services_base (0.2.4)
       cf-uaa-lib
       curb (~> 0.7.16)
       data_mapper (~> 1.2)
@@ -40,7 +41,7 @@ GIT
       eventmachine (~> 1.0)
       eventmachine_httpserver (~> 0.2.1)
       json
-      nats (>= 0.4.22.beta.8, < 0.4.28)
+      nats (>= 0.5.0.beta.12, < 0.6)
       resque (~> 1.20)
       resque-status
       ruby-hmac (~> 0.4.0)
@@ -48,7 +49,7 @@ GIT
       sinatra (>= 1.2.3)
       steno
       thin (>= 1.3.1)
-      vcap_common (>= 2.2.1)
+      vcap_common (>= 2.2.2)
       warden-client
       warden-protocol
 
@@ -65,18 +66,24 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.2.14)
+    activesupport (3.2.15)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     addressable (2.3.5)
-    backports (3.3.3)
-    bcrypt-ruby (3.1.1)
-    beefcake (0.3.7)
+    axiom-types (0.0.5)
+      descendants_tracker (~> 0.0.1)
+      ice_nine (~> 0.9)
+    backports (3.3.5)
+    bcrypt-ruby (3.1.2)
+    beefcake (0.4.0)
     builder (3.2.2)
     cf-uaa-lib (2.0.0)
       multi_json
     ci_reporter (1.6.4)
       builder (>= 2.1.2)
+    coercible (0.2.0)
+      backports (~> 3.0, >= 3.1.0)
+      descendants_tracker (~> 0.0.1)
     cookiejar (0.3.0)
     curb (0.7.18)
     daemons (1.1.9)
@@ -102,7 +109,7 @@ GEM
       dm-transactions (~> 1.2.0)
       dm-types (~> 1.2.0)
       dm-validations (~> 1.2.0)
-    descendants_tracker (0.0.1)
+    descendants_tracker (0.0.3)
     diff-lcs (1.2.2)
     dm-aggregates (1.2.0)
       dm-core (~> 1.2.0)
@@ -145,7 +152,7 @@ GEM
       data_objects (= 0.10.13)
     do_sqlite3 (0.10.13)
       data_objects (= 0.10.13)
-    em-http-request (1.1.0)
+    em-http-request (1.1.1)
       addressable (>= 2.3.4)
       cookiejar
       em-socksify (>= 0.3)
@@ -153,13 +160,14 @@ GEM
       http_parser.rb (>= 0.6.0.beta.2)
     em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
+    equalizer (0.0.7)
     eventmachine (1.0.3)
     eventmachine_httpserver (0.2.1)
     fastercsv (1.5.5)
-    fluent-logger (0.4.6)
+    fluent-logger (0.4.7)
       msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
       yajl-ruby (~> 1.0)
-    grape (0.5.0)
+    grape (0.6.1)
       activesupport
       builder
       hashie (>= 1.2.0)
@@ -168,38 +176,39 @@ GEM
       rack (>= 1.3.0)
       rack-accept
       rack-mount
-      virtus
+      virtus (>= 1.0.0)
     hashie (2.0.5)
     http_parser.rb (0.6.0.beta.2)
     httpclient (2.3.4.1)
-    i18n (0.6.4)
-    json (1.8.0)
-    json_pure (1.8.0)
+    i18n (0.6.5)
+    ice_nine (0.10.0)
+    json (1.8.1)
+    json_pure (1.8.1)
     membrane (0.0.2)
-    mime-types (1.23)
+    mime-types (2.0)
     mono_logger (1.1.0)
-    msgpack (0.5.5)
-    multi_json (1.7.7)
-    multi_xml (0.5.4)
+    msgpack (0.5.7)
+    multi_json (1.8.2)
+    multi_xml (0.5.5)
     multipart-post (1.2.0)
     mysql2 (0.3.11)
-    nats (0.4.26)
-      daemons (>= 1.1.5)
-      eventmachine (>= 0.12.10)
-      json_pure (>= 1.7.3)
-      thin (>= 1.4.1)
+    nats (0.5.0.beta.12)
+      daemons (>= 1.1.9)
+      eventmachine (>= 1.0.3)
+      json_pure (>= 1.8.0)
+      thin (>= 1.5.0)
     posix-spawn (0.3.6)
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
-    rack-protection (1.5.0)
+    rack-protection (1.5.1)
       rack
     rake (10.1.0)
-    redis (3.0.5)
-    redis-namespace (1.3.1)
-      redis (~> 3.0.0)
+    redis (3.0.6)
+    redis-namespace (1.3.2)
+      redis (~> 3.0.4)
     resque (1.25.1)
       mono_logger (~> 1.0)
       multi_json (~> 1.0)
@@ -219,28 +228,30 @@ GEM
     ruby-hmac (0.4.0)
     rubyzip (0.9.9)
     sequel (3.45.0)
-    sinatra (1.4.3)
+    sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    squash_ruby (1.2.0)
+    squash_ruby (1.2.2)
       json
-    steno (1.1.0)
+    steno (1.2.2)
       fluent-logger
       grape
       yajl-ruby (~> 1.0)
     stringex (1.5.1)
-    thin (1.5.1)
+    thin (1.6.1)
       daemons (>= 1.0.9)
-      eventmachine (>= 0.12.6)
+      eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
     tilt (1.4.1)
     uuidtools (2.1.4)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    virtus (0.5.5)
-      backports (~> 3.3)
+    virtus (1.0.0)
+      axiom-types (~> 0.0.5)
+      coercible (~> 0.2)
       descendants_tracker (~> 0.0.1)
+      equalizer (~> 0.0.7)
     vmstat (2.0.0)
     yajl-ruby (1.1.0)
 
@@ -269,6 +280,6 @@ DEPENDENCIES
   uuidtools
   vcap_common!
   vcap_logging!
-  vcap_services_base (~> 0.2.3)!
+  vcap_services_base (~> 0.2.4)!
   warden-client!
   warden-protocol!
