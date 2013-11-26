@@ -3,10 +3,6 @@ sqlite/sqlite-autoconf-3070500.tar.gz:
   object_id: rest/objects/4e4e78bca11e121004e4e7d511f82104f3068661ccfa
   sha: 4e1338497b8da50b84307191bb3418e9ec5715d7
   size: 1551070
-ruby/ruby-1.9.2-p180.tar.gz:
-  object_id: rest/objects/4e4e78bca21e121004e4e7d511f55304f30690c88fd9
-  sha: 6a482bc07239b37bcadf68dda63c65d20dc19ebe
-  size: 11158935
 ruby/rubygems-1.8.24.tgz:
   object_id: rest/objects/4e4e78bca41e122204e4e9863d076304fa1cc28797a9
   sha: 30f27047e74f7943117736a0d3e224994fee0905
@@ -43,10 +39,6 @@ libyaml/yaml-0.1.4.tgz:
   object_id: rest/objects/4e4e78bca51e122004e4e8ec6840770511d35ffc91bd
   sha: e0e5e09192ab10a607e3da2970db492118f560f2
   size: 471759
-ruby/ruby-1.9.3-p392.tar.gz:
-  object_id: rest/objects/4e4e78bca61e121204e4e86eebe5910513a3270968f3
-  sha: ec75fcbd3b6b46ce6ec997ee4c86145b4abd5748
-  size: 12557294
 rootfs/lucid64.tar.gz:
   object_id: rest/objects/4e4e78bca61e122204e4e98643d9ae051782c701f072
   sha: !binary |-
