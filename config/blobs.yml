@@ -52,3 +52,8 @@ rootfs/lucid64.tar.gz:
   sha: !binary |-
     YjI2MzNiMmFiNDk2NGY5MTQwMmJiMmQ4ODlmMmYxMjQ0OWE4YjgyOA==
   size: 199489185
+ruby/ruby-1.9.3-p484.tar.gz:
+  object_id: 51971a13-94b2-4ef7-8c00-3e67832820f6
+  sha: !binary |-
+    NmFlODBmNDI0OTY4YjVjZTY2MWVlOWIyYmVlMWMyMWFkYzllZTY3Yw==
+  size: 12576996
