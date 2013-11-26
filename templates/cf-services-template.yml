@@ -14,7 +14,7 @@ name: (( meta.environment "-v1-mysql" ))
 director_uuid: (( merge ))
 
 releases:
-- name: cf-services
+- name: cf-services-release
   version: latest
 
 compilation:
@@ -34,20 +34,20 @@ networks: (( merge ))
 
 resource_pools:
 - name: services-small
-  network: services_v1_mysql
+  network: services1
   size: (( auto ))
   stemcell: (( meta.stemcell ))
   cloud_properties: (( merge ))
 
 jobs:
 - name: mysql_gateway
-  release: cf-services
+  release: cf-services-release
   template:
   - mysql_gateway
   instances: 1
   resource_pool: services-small
   networks:
-  - name: services_v1_mysql
+  - name: services1
     static_ips: (( static_ips(10) ))
   properties:
     mysql_gateway:
@@ -59,14 +59,14 @@ jobs:
       version_aliases:
         "current": "5.5"
 - name: mysql_node
-  release: cf-services
+  release: cf-services-release
   template:
   - mysql_node
   instances: 1
   resource_pool: services-small
   persistent_disk: 4096
   networks:
-  - name: services_v1_mysql
+  - name: services1
     static_ips: (( static_ips(11) ))
   properties:
     mysql_node:

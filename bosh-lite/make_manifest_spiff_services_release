@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
+#ADGW_RELEASE_DIR=${ADGW_RELEASE_DIR:-$BOSH_RELEASES_DIR/appdirect-gateway}
+
+#if [[ ! -d $ADGW_RELEASE_DIR ]]; then
+#  echo "Cannot find appdirect-gateway release at $ADGW_RELEASE_DIR; override with \$ADGW_RELEASE_DIR variable"
+#  exit 1
+#fi
+
+cp cf-services-stub-spiff.yml tmp/cf-services-stub-with-uuid.yml
+DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
+echo $DIRECTOR_UUID
+perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" tmp/cf-services-stub-with-uuid.yml
+
+bosh target https://192.168.50.4:25555
+~/workspace/cf-services-release/generate_deployment_manifest warden tmp/cf-services-stub-with-uuid.yml > manifests/cf-services-release-manifest.yml
+bosh deployment manifests/cf-services-release-manifest.yml
+
