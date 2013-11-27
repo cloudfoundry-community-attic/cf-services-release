@@ -50,7 +50,7 @@ class VCAP::Services::Mysql::Provisioner < VCAP::Services::Base::Provisioner
   end
 
   def provision_service(*args)
-    sleep options.fetch(:provision_delay)
+    sleep 75
     super
   end
 
