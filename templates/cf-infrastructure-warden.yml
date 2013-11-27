@@ -415,6 +415,11 @@ jobs:
   - name: login_z1
     template: login
 
+  - name: mysql_node
+    properties:
+      mysql_node:
+        loopback_required: false
+
 
 resource_pools:
   - name: appdirect_z1

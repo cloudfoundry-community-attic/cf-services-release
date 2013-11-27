@@ -10,10 +10,9 @@ BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
 
 cp cf-services-stub-spiff.yml tmp/cf-services-stub-with-uuid.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
-echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" tmp/cf-services-stub-with-uuid.yml
 
 bosh target https://192.168.50.4:25555
-~/workspace/cf-services-release/generate_deployment_manifest warden tmp/cf-services-stub-with-uuid.yml > manifests/cf-services-release-manifest.yml
-bosh deployment manifests/cf-services-release-manifest.yml
+~/workspace/cf-services-release/generate_deployment_manifest warden tmp/cf-services-stub-with-uuid.yml > manifests/cf-services-manifest.yml
+bosh deployment manifests/cf-services-manifest.yml
 

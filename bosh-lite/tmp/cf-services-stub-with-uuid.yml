@@ -1,9 +1,0 @@
----
-name: cf-warden-services
-director_uuid: a725732d-dbc3-40c9-949c-e9c31d1717e0
-releases:
-  - name: cf-services-release
-    version: latest
-properties:
-  loggregator_endpoint:
-    shared_secret: PLACEHOLDER-LOGGREGATOR-SECRET

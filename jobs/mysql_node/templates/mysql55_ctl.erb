@@ -5,11 +5,15 @@ source /var/vcap/packages/common/utils.sh
 case $1 in
 
   start)
+    LOOPBACK_REQUIRED=<%= properties.mysql_node.loopback_required %>
+
     /var/vcap/jobs/mysql_node/bin/create_mysql_tmp_dir
     return_value=$?
-    if [ $return_value -ne 0 ]; then
-      echo "Failed to create mysql tmp directory"
-      exit $return_value
+    if [[ $return_value -ne 0 && "$LOOPBACK_REQUIRED" == "false" ]]; then
+      echo "Could not create loopback dir for mysql tmp; using local filesystem"
+    elif [[ $return_value -ne 0 ]]; then
+      echo "Failed to create mysql tmp directory; could not create loopback dir"
+      exit 1
     fi
     mkdir -p /var/vcap/data/mysql_tmp/mysql55
     chown -R vcap /var/vcap/data/mysql_tmp/mysql55

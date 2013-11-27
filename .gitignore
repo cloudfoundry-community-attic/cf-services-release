@@ -8,6 +8,8 @@ blobs
 .idea
 .final_builds/jobs/**/*.tgz
 .final_builds/packages/**/*.tgz
+bosh-lite/manifests/*.yml
+bosh-lite/tmp/**/*
 *.swp
 *~
 *#

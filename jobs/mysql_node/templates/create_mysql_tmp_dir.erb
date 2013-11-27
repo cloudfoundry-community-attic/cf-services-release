@@ -26,7 +26,7 @@ mysql_tmp_dir="$mysql_tmp_in/mysql_tmp"
 
 # unit of size should be MB, default size is 2GB
 mysql_tmp_size=<%= properties.mysql_node.max_tmp || 2048 %>
-# greedy_level, recreate files and directories if possible, may delete the file and direcotry with the same names or, just report
+# greedy_level, recreate files and directories if possible, may delete the file and directory with the same names or, just report
 greedy_level=<%= properties.mysql_node.tmp_greedy_level || 1 %>
 
 
@@ -35,7 +35,6 @@ will_setup_loop=0
 will_create_dir=0
 
 # check whether the mysql_tmp_loop has been created, if not, try to create it
-
 if [ ! -f "$mysql_tmp_loop_file" ]; then
   create_tmp_file $mysql_tmp_size $mysql_tmp_loop_file
 fi
