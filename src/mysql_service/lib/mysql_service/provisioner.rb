@@ -49,6 +49,11 @@ class VCAP::Services::Mysql::Provisioner < VCAP::Services::Base::Provisioner
     varz
   end
 
+  def provision_service(*args)
+    sleep options.fetch(:provision_delay)
+    super
+  end
+
   private
 
   def compute_availability(plan_nodes)
