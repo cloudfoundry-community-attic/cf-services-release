@@ -256,6 +256,18 @@ properties:
         citext: true
 
 jobs:
+  - name: mysql_gateway
+    instances: 1
+    networks:
+    - name: services1
+      static_ips: (( static_ips(10) ))
+
+  - name: mysql_node
+    instances: 1
+    networks:
+    - name: services1
+      static_ips: (( static_ips(11) ))
+
   - name: appdirect_gateway_z1
     instances: 1
   - name: appdirect_gateway_z2
@@ -479,6 +491,7 @@ resource_pools:
   - name: services-small
     cloud_properties:
       name: random
+    network: services1
 
 networks:
 - name: cf1

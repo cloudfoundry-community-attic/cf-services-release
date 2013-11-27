@@ -2,6 +2,19 @@ meta:
   stemcell:
     name: bosh-vsphere-esxi-ubuntu
 
+jobs:
+  - name: mysql_gateway
+    instances: 1
+    networks:
+    - name: services_v1_mysql
+      static_ips: (( static_ips(10) ))
+
+  - name: mysql_node
+    instances: 1
+    networks:
+    - name: services_v1_mysql
+      static_ips: (( static_ips(11) ))
+
 compilation:
   cloud_properties:
     ram: 1024
