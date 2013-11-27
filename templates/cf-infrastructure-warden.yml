@@ -267,14 +267,10 @@ jobs:
     networks:
     - name: services1
       static_ips: (( static_ips(11) ))
+    properties:
+      mysql_node:
+        loopback_required: false
 
-  - name: appdirect_gateway_z1
-    instances: 1
-  - name: appdirect_gateway_z2
-    instances: 0
-    # Only A1 has appdirect_gateway_dev
-  - name: appdirect_gateway_dev
-    instances: 0
 
   # specify nats static IP
   - name: nats_z1
@@ -283,62 +279,6 @@ jobs:
       - name: cf1
         static_ips: (( static_ips(1) ))
 
-  - name: nats_z2
-    instances: 0
-    networks:
-      - name: cf2
-        static_ips: (( static_ips(1) ))
-
-  # set up static IP for loggregator trafficcontroller
-  - name: loggregator_trafficcontroller_z1
-    instances: 1
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(2) ))
-
-  - name: loggregator_trafficcontroller_z2
-    instances: 0
-    networks:
-      - name: cf2
-        static_ips: (( static_ips(2) ))
-
-  # set up static IP for loggregator
-  - name: loggregator_z1
-    instances: 1
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(3, 4) ))
-
-  # set up static IP for loggregator
-  - name: loggregator_z2
-    instances: 0
-    networks:
-      - name: cf2
-        static_ips: (( static_ips(3, 4) ))
-
-  # only need one router, and set up static IPs
-  - name: router_z1
-    instances: 1
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(5) ))
-  - name: router_z2
-    instances: 0
-    networks:
-      - name: cf2
-        static_ips: (( static_ips(5) ))
-
-  # only need one runner
-  #
-  # also give it a static IP to make testing easier
-  - name: runner_z1
-    instances: 1
-    networks:
-    - name: cf1
-      static_ips: (( static_ips(6) ))
-  - name: runner_z2
-    instances: 0
-
   # set up static IP for postgres
   - name: postgres_z1
     instances: 1
@@ -346,92 +286,11 @@ jobs:
     - name: cf1
       static_ips: (( static_ips(7) ))
 
-  # only need one taskmaster
-  - name: taskmaster_z1
-    instances: 1
-  - name: taskmaster_z2
-    instances: 0
-
-  # only need one uaa
-  - name: uaa_z1
-    instances: 1
-  - name: uaa_z2
-    instances: 0
-
-  # add a persistent disk to the CC, and only need one
-  - name: api_z1
-    persistent_disk: 4096
-  - name: api_z2
-    persistent_disk: 4096
-    instances: 0
-
-  # smaller persistent disk for logs, and set up static IPs
-  - name: logs_z1
-    instances: 1
-    persistent_disk: 4096
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(0) ))
-  - name: logs_z2
-    instances: 0
-    persistent_disk: 4096
-    networks:
-      - name: cf2
-        static_ips: (( static_ips(0) ))
-
-  # no collector
-  - name: stats_z1
-    instances: 0
-  - name: stats_z2
-    instances: 0
-
   - name: ha_proxy_z1
     instances: 1
     networks:
       - name: cf1
         static_ips: (( static_ips(8) ))
-    properties:
-      ha_proxy:
-        ssl_pem: |
-          -----BEGIN CERTIFICATE-----
-          MIICLzCCAZgCCQCSoIG3LoeSMTANBgkqhkiG9w0BAQUFADBcMQswCQYDVQQGEwJV
-          UzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xEDAOBgNVBAoT
-          B1Bpdm90YWwxFjAUBgNVBAsTDUNsb3VkIEZvdW5kcnkwHhcNMTMxMDE3MjMxNzM5
-          WhcNMTQxMDE3MjMxNzM5WjBcMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAU
-          BgNVBAcTDVNhbiBGcmFuY2lzY28xEDAOBgNVBAoTB1Bpdm90YWwxFjAUBgNVBAsT
-          DUNsb3VkIEZvdW5kcnkwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANqyjJMH
-          FDbJ4XM2vLRxz6i82Gd2Y2dnAKYgu67FgheHGQJSv38lvn8JrAOBXu2QJgP8sJa+
-          XqUWUTMo9BWvhvedQLojtcpLdULc0FhlIXn8bThGlTQyrSg9QJobhQZGziFVrdQM
-          UZy4X+s6A2Szb9iOg3TYibnnfnuvdZli83eRAgMBAAEwDQYJKoZIhvcNAQEFBQAD
-          gYEAbFu65WT+czpiJqHhNz5AnGYA8kieVlV7KhcljLtsU4Sxut5Vq9uXFBE09KCg
-          YkyZ9KfzXArTeRCfcbm5xq12I+1nf6q0QjT1y3P6ztax0rpyb0i+4GWvA+ruMhfx
-          n4QM1MkiJVYBGKkXFZDd1zsdR3pY4vm1uiMY75IvJQfgb08=
-          -----END CERTIFICATE-----
-          -----BEGIN RSA PRIVATE KEY-----
-          MIICXQIBAAKBgQDasoyTBxQ2yeFzNry0cc+ovNhndmNnZwCmILuuxYIXhxkCUr9/
-          Jb5/CawDgV7tkCYD/LCWvl6lFlEzKPQVr4b3nUC6I7XKS3VC3NBYZSF5/G04RpU0
-          Mq0oPUCaG4UGRs4hVa3UDFGcuF/rOgNks2/YjoN02Im55357r3WZYvN3kQIDAQAB
-          AoGAa88G81fTBCtDA1vhbIaKWuE1QNOgrxGcxUhvnPlqZxTHJFkMY66EmPV4oYW9
-          +RhNVTvVBYq092boAnNW1/Xebvrk1SnBDkrLntnGPmExkatOkPTFFlNXfePu6qOJ
-          ULwYg8rKRwpvLoQXxbzMDXApPBifBNWGHVneGuHLpwPEQgECQQD0IJOecEyorrCR
-          6+wmJBS/IwqQO0Ooj7kZEg65MHi9exVe+XFvP0lW2NAUsDuBLz79hjslSqIJjRG8
-          c6q36oqhAkEA5VVeEip+T4DV12I5A5maGexVMeC92K7EGU/H8YhltxVZ/RtNngdT
-          3r19WeDbDF7R5CJy2f7AYullk3S6fkk28QJBALdEiW1k4rezRMyW7tYHOifvN2vl
-          gbpWAt/GRZVSxSGB+B4vZq/cM8NlynftgQ5PGJucnGQ3bgN7irgNoTimc2ECQFMX
-          QBMy5DroAhKcmu2r/IKB90gwFnjosVI+bsIbWkcgbE9hUhj8rK2aWE11Q8hSnpea
-          x6QmQgxUZiIr+9n/qvECQQDiDIeSmo2mRYsaqr4CQ3Ak+EDjsm9XTpXHuqm+xgFO
-          iDIeQCWd3/twqdDTR7FaDE7Q0i559u7A1yLumUn8caLF
-          -----END RSA PRIVATE KEY-----
-
-  # using login template, that supports self-signed certs
-  - name: login_z1
-    template: login
-
-  - name: mysql_node
-    properties:
-      mysql_node:
-        loopback_required: false
-
 
 resource_pools:
   - name: appdirect_z1
