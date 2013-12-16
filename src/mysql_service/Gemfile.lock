@@ -29,10 +29,10 @@ GIT
 
 GIT
   remote: git://github.com/cloudfoundry/vcap-services-base.git
-  revision: efe0c4fffee0d114de00df724b603ff5228fb5d8
+  revision: 7453f735f35de5a1cff3ef700862f2de1574557e
   branch: master
   specs:
-    vcap_services_base (0.2.4)
+    vcap_services_base (0.2.5)
       cf-uaa-lib
       curb (~> 0.7.16)
       data_mapper (~> 1.2)
@@ -280,6 +280,6 @@ DEPENDENCIES
   uuidtools
   vcap_common!
   vcap_logging!
-  vcap_services_base (~> 0.2.4)!
+  vcap_services_base (~> 0.2.5)!
   warden-client!
   warden-protocol!
