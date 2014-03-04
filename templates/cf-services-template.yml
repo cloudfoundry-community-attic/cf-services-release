@@ -72,6 +72,9 @@ jobs:
       loopback_required: true
 
 properties:
+  mysql_service:
+    service_name: mysql
+    unique_id: 92a06847-9446-407f-8aaa-a6f20c1d2cdc
   system_domain: (( merge ))
   uaa_client_id: "cf"
   uaa_endpoint: (( "http://uaa." system_domain ))
@@ -81,7 +84,7 @@ properties:
   service_plans:
     mysql:
       "100mb":
-        unique_id: '3173ce70-fef2-11e2-b778-0800200c9a66'
+        unique_id: 3173ce70-fef2-11e2-b778-0800200c9a66
         description: "Shared service, 100MB storage, 10 connections per DB"
         extra: '{"cost":0.0,"bullets":[{"content":"100 MB storage"},{"content":"10 connections per DB"}]}'
         configuration:

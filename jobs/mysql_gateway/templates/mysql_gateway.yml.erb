@@ -25,8 +25,8 @@ mbus: <%= nats %>
 cloud_controller_uri: <%= properties.cc.srv_api_uri %>
 
 service:
-  name: mysql
-  unique_id: "92a06847-9446-407f-8aaa-a6f20c1d2cdc"
+  name: <%= properties.mysql_service.service_name %>
+  unique_id: <%= properties.mysql_service.unique_id %>
   version: "5.5"
   description: 'MySQL database'
   provider: core

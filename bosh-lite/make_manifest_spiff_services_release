@@ -8,6 +8,7 @@ BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
 #  exit 1
 #fi
 
+mkdir -p tmp
 cp cf-services-stub-spiff.yml tmp/cf-services-stub-with-uuid.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" tmp/cf-services-stub-with-uuid.yml
