@@ -1,10 +1,16 @@
 #!/bin/sh
 
 templates=$(dirname $0)/templates
+stubs_dir=$(dirname $0)/stubs
 
 infrastructure=$1
 
 shift
+
+ip_overrides_stub=
+if [[ -e $stubs_dir/cf-ip-overrides.stub.yml ]]; then
+  ip_overrides_stub=$stubs_dir/cf-ip-overrides.stub.yml
+fi
 
 if [ "$infrastructure" != "aws" ] && \
     [ "$infrastructure" != "vsphere" ] && \
@@ -15,5 +21,8 @@ fi
 
 spiff merge \
   $templates/cf-services-template.yml \
+  $templates/cf-jobs-template.yml \
+  $ip_overrides_stub \
   $templates/cf-infrastructure-${infrastructure}.yml \
+  $stubs_dir/cf-mysql-service-catalog.stub.yml \
   $*

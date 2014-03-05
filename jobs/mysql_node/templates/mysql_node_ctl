@@ -1,6 +1,6 @@
 #!/bin/bash
 <%
-service = "mysql"
+service = properties.mysql_service.name
 migration = properties.service_migration
 lifecycle = properties.service_lifecycle
 

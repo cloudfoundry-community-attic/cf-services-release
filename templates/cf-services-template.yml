@@ -10,6 +10,10 @@ meta:
     name: (( merge ))
     version: latest
 
+temporary:
+  mysql_node_loopback_required: (( properties.mysql_node_loopback_required ))
+  mysql_service_catalog_config: (( merge ))
+
 name: (( meta.environment "-v1-mysql" ))
 director_uuid: (( merge ))
 
@@ -66,33 +70,21 @@ jobs:
   networks: (( merge ))
   properties:
     mysql_node:
-      plan: "100mb"
+      plan: (( temporary.mysql_service_catalog_config.service.enabled_plan ))
       supported_versions:
       - '5.5'
-      loopback_required: true
+      loopback_required: (( temporary.mysql_node_loopback_required ))
 
 properties:
-  mysql_service:
-    service_name: mysql
-    unique_id: 92a06847-9446-407f-8aaa-a6f20c1d2cdc
+  mysql_node_loopback_required: (( merge || true ))
+  mysql_service: (( temporary.mysql_service_catalog_config.service ))
   system_domain: (( merge ))
   uaa_client_id: "cf"
   uaa_endpoint: (( "http://uaa." system_domain ))
   appdirect_gateway:
     uaa_client_auth_credentials: (( merge ))
   uaa_client_auth_credentials: (( appdirect_gateway.uaa_client_auth_credentials ))
-  service_plans:
-    mysql:
-      "100mb":
-        unique_id: 3173ce70-fef2-11e2-b778-0800200c9a66
-        description: "Shared service, 100MB storage, 10 connections per DB"
-        extra: '{"cost":0.0,"bullets":[{"content":"100 MB storage"},{"content":"10 connections per DB"}]}'
-        configuration:
-          capacity: 20
-          max_db_size: 100
-          innodb_buffer_pool_size: 512
-          max_clients: 10
-          max_connections: 100
+  service_plans: (( temporary.mysql_service_catalog_config.plans ))
   nats: (( merge ))
   cc:
     srv_api_uri: (( protocol "://api."  system_domain ))

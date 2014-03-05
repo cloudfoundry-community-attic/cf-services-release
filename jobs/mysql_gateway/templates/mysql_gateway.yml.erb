@@ -1,7 +1,7 @@
 ---
 <%
-service = "mysql"
-gateway = eval("properties.#{service}_gateway")
+service =  properties.mysql_service.name
+gateway = properties.mysql_gateway
 acls = gateway.acls
 plan_mgmt = properties.service_plans.send(service.to_sym)
 supported_plans = properties.supported_plans
@@ -25,7 +25,7 @@ mbus: <%= nats %>
 cloud_controller_uri: <%= properties.cc.srv_api_uri %>
 
 service:
-  name: <%= properties.mysql_service.service_name %>
+  name: <%= properties.mysql_service.name %>
   unique_id: <%= properties.mysql_service.unique_id %>
   version: "5.5"
   description: 'MySQL database'

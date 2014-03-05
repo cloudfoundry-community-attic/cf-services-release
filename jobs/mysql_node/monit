@@ -1,8 +1,9 @@
 <%
-service = "mysql"
-plan_enabled = properties.service_plans && properties.service_plans.send(service.to_sym)
+service = properties.mysql_service.name
+plans_for_service = properties.service_plans && properties.service_plans.send(service.to_sym)
+plan_enabled = plans_for_service
 plan = properties.mysql_node.plan
-plan_conf = plan_enabled && properties.service_plans.send(service.to_sym).send(plan.to_sym).configuration
+plan_conf = plan_enabled && plans_for_service.send(plan.to_sym).configuration
 use_warden= plan_conf.warden && plan_conf.warden.enable
 
 node = properties.mysql_node

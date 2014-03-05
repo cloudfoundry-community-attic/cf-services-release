@@ -15,6 +15,14 @@ compilation:
     name: random
 
 properties:
+  jobs_network: services1
+  nats_ip: (( networks.cf1.subnets.[1].static.[0] ))
+  haproxy_ip: (( networks.cf1.subnets.[8].static.[0] ))
+  postgres_ip: (( networks.cf1.subnets.[7].static.[0] ))
+  mysql_gateway_ip: (( networks.services1.subnets.[10].static.[0] ))
+  mysql_node_ip: (( networks.services1.subnets.[11].static.[0] ))
+  mysql_node_loopback_required: false
+
   appdirect_gateway:
 
     airbrake_api_key: nope
@@ -110,9 +118,9 @@ properties:
   ssl:
     skip_cert_verify: true
 
-  system_domain: (( jobs.ha_proxy_z1.networks.cf1.static_ips.[0] ".xip.io" ))
+  system_domain: (( properties.haproxy_ip ".xip.io" ))
 
-  domain: (( jobs.ha_proxy_z1.networks.cf1.static_ips.[0] ".xip.io" ))
+  domain: (( properties.haproxy_ip ".xip.io" ))
 
   disk_quota_enabled: false
 
@@ -128,7 +136,7 @@ properties:
   nats:
     user: nats
     password: nats
-    address: (( jobs.nats_z1.networks.cf1.static_ips.[0]))
+    address: (( properties.nats_ip ))
     port: 4222
 
   cc:
@@ -238,7 +246,7 @@ properties:
 
   databases:
     db_scheme: postgres
-    address: (( jobs.postgres_z1.networks.cf1.static_ips.[0] ))
+    address: (( properties.postgres_ip ))
     port: 5524
     roles:
       - tag: admin
@@ -254,43 +262,6 @@ properties:
       - tag: uaa
         name: uaadb
         citext: true
-
-jobs:
-  - name: mysql_gateway
-    instances: 1
-    networks:
-    - name: services1
-      static_ips: (( static_ips(10) ))
-
-  - name: mysql_node
-    instances: 1
-    networks:
-    - name: services1
-      static_ips: (( static_ips(11) ))
-    properties:
-      mysql_node:
-        loopback_required: false
-
-
-  # specify nats static IP
-  - name: nats_z1
-    instances: 1
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(1) ))
-
-  # set up static IP for postgres
-  - name: postgres_z1
-    instances: 1
-    networks:
-    - name: cf1
-      static_ips: (( static_ips(7) ))
-
-  - name: ha_proxy_z1
-    instances: 1
-    networks:
-      - name: cf1
-        static_ips: (( static_ips(8) ))
 
 resource_pools:
   - name: appdirect_z1

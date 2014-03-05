@@ -7,19 +7,6 @@ compilation:
     instance_type: c1.medium
     availability_zone: (( properties.template_only.aws.availability_zone ))
 
-jobs:
-  - name: mysql_gateway
-    instances: 1
-    networks:
-    - name: services_v1_mysql
-      static_ips: (( static_ips(10) ))
-
-  - name: mysql_node
-    instances: 1
-    networks:
-    - name: services_v1_mysql
-      static_ips: (( static_ips(11) ))
-
 networks:
   - name: services_v1_mysql
     type: manual
@@ -47,3 +34,6 @@ resource_pools:
 
 properties:
   template_only: (( merge ))
+  jobs_network: services_v1_mysql
+  mysql_gateway_ip: 10.10.36.11
+  mysql_node_ip: 10.10.36.12
